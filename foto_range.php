@@ -9,6 +9,7 @@ include("shared_inc/language.inc.php");
 include("shared_inc/wiki_functions.inc.php");
 include('next_inc/OfferingUser.php');	
 include('next_inc/OfferPage.php');	
+include('next_inc/OfferPages.php');	
 include('next_inc/GeoLocation.php');	
 
 
@@ -48,62 +49,49 @@ if($article_to == "")
 }
 else
 {
+    $footNote = "";
+    $linkToArticleTo = "<a href=\"https://$server/wiki/".name_in_url($article_to)."\">$article_to</a>";
+    echo '<h1>' . str_replace('_ARTICLE_TO_', $linkToArticleTo, $messages['distance_to']) .'</h1>';
+    $locTo = new GeoLocation($article_to, $server);
+    if($locTo->IsValid())
+    {
+	$allOfferPages = new OfferPages($server);
 	
-	$footNote = "";
-	$linkToArticleTo = "<a href=\"https://$server/wiki/".name_in_url($article_to)."\">$article_to</a>";
-	echo '<h1>' . str_replace('_ARTICLE_TO_', $linkToArticleTo, $messages['distance_to']) .'</h1>';
-	$locTo = new GeoLocation($article_to, $server);
-	if($locTo->IsValid())
-	{
-		$linkTemplate = "";
-		$linkOfferpage = "";
-		
-		$allServers = OfferPage::GetAvailableServers();
-		
-		//put 
-		$indexOfMyServer = array_search($server, $allServers);
-		if($indexOfMyServer!=false)
-		{
-			$firstServer = $allServers[0];
-			$allServers[0] = $allServers[$indexOfMyServer];
-			$allServers[$indexOfMyServer] = $firstServer;
-		}
-		
-		foreach($allServers as $oneServer)
-		{
+	$linkTemplate = "";
+	$linkOfferpage = "";
 
-			$offerpage = new OfferPage($oneServer);
-			$urlOfferPage = "https://$oneServer/wiki/".$offerpage->pageEncoded;
-			echo "<h2><a href=\"$urlOfferPage\">$oneServer</a></h2>";
-			$offerpage->ListUsersToRequest($locTo);
-			if($oneServer == $server)
-			{
-				//todo: handle in if-statement above
-				$linkTemplate = "<a href=\"https://$oneServer/wiki/Template:".name_in_url($offerpage->templateName)."\">$offerpage->templateName</a>";
-				$linkOfferpage = "<a href=\"$urlOfferPage\">".urldecode($offerpage->pageEncoded)."</a>"; 
-			}
-		}
-		
-		if($linkTemplate!="")
-		{
-			$footNote = str_replace('_OFFER_PAGE_', $linkOfferpage, str_replace('_TEMPLATE_NAME_', $linkTemplate, $messages['you_on_list']));
-		}
-		
-	}
-	else
+	foreach($allOfferPages->Items as $offerPage)
 	{
-		echo str_replace('_LOCATION_', $requested, $messages['no_coordinates']);
+		
+		echo "<h2><a href=\"$offerPage->EncodedOfferPage\">$offerPage->server</a></h2>";
+		$offerPage->ListUsersToRequest($locTo);
+		if($offerPage->server == $server)
+		{
+			//todo: handle in if-statement above
+			$linkTemplate = "<a href=\"https://$offerPage->server/wiki/Template:".name_in_url($offerPage->templateName)."\">$offerPage->templateName</a>";
+			$linkOfferpage = "<a href=\"$offerPage->EncodedOfferPage\">".urldecode($offerPage->pageEncoded)."</a>"; 
+		}
 	}
-	
-	echo "<br><br><a href=\"?lang=$lang&project=$project\">".$messages['new_request']."</a>";
-    	echo "<br><hr>$footNote";
+
+	if($linkTemplate!="")
+	{
+		$footNote = str_replace('_OFFER_PAGE_', $linkOfferpage, str_replace('_TEMPLATE_NAME_', $linkTemplate, $linkOfferpage));
+	}
+    }
+    else
+    {
+	    echo str_replace('_LOCATION_', $requested, $messages['no_coordinates']);
     }
 
-        echo "<br><hr>";
-        echo '<a href="' . $messages['manual_link'] . '">'. $messages['manual']  . '</a>';
-        echo " - ";
-        echo '<a href="' . $messages['issue_link'] . '">'. $messages['issues']  . '</a>';
-        echo ' - by <a href="http://de.wikipedia.org/wiki/Benutzer:Flominator">Flominator</a>';
+    echo "<br><br><a href=\"?lang=$lang&project=$project\">".$messages['new_request']."</a>";
+    echo "<br><hr>$footNote";
+}
+
+    echo "<br><hr>";
+    echo '<a href="' . $messages['manual_link'] . '">'. $messages['manual']  . '</a>';
+    echo " - ";
+    echo '<a href="' . $messages['issue_link'] . '">'. $messages['issues']  . '</a>';
+    echo ' - by <a href="http://de.wikipedia.org/wiki/Benutzer:Flominator">Flominator</a>';
 
 function print_debug($str)
 {

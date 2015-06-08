@@ -5,6 +5,7 @@ class OfferPage
 	private $userOffers;
 	public $server;
 	public $pageEncoded;
+	public $EncodedOfferPage;
 	public $TemplateName;
 	public $revisionCurrent;
 	private $TemplateUser;
@@ -17,22 +18,22 @@ class OfferPage
 	private $IndexUserColumn;
 	private $IndexLocationColumn;
         
-	public static $CONFIG_DIR = 'next_inc/proj';
 	public static $CACHE_DIR = 'next_inc/cached';
-	function __construct($server_in) 
+	function __construct($configDir, $theServer) 
 	{
             
 		global $messages, $is_debug;
-	
+		
 		//echo "page=".$page;
-		$this->server = $server_in;
+		$this->server = $theServer;
+		$ConfigFile = $configDir . '/' . $this->server . '.php';
 		$cacheFile = self::$CACHE_DIR . '/' . $this->server . '.cache';
 
 		if(!file_exists(self::$CACHE_DIR))
 		{
 			mkdir(self::$CACHE_DIR, "0777");
 		}
-		$ConfigFile = self::$CONFIG_DIR . '/' . $this->server . '.php';
+//		
 		if(!file_exists($ConfigFile))
 		{
 			die(str_replace('_PROJECT_', $this->server, $messages['proj_not_supported']));
@@ -81,6 +82,7 @@ class OfferPage
 		@$xml = simplexml_load_file($request_url);
 		$this->revisionCurrent = $xml->query->pages->page->revisions->rev['revid'];
 		$this->pageEncoded = name_in_url($OfferPageName);
+		$this->EncodedOfferPage = "https://$this->server/wiki/".$this->pageEncoded;
 		
 		$useCache = $this->IsCachedVersionUpToDate();
 		
@@ -325,10 +327,6 @@ class OfferPage
 		}
 	}
 	
-	static function GetAvailableServers()
-	{
-		return get_language_list(self::$CONFIG_DIR);
-	}
 	
 
 }
