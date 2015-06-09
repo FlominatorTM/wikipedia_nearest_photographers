@@ -22,13 +22,17 @@ class OfferPages
 	    $i++;
 	}
 	
-	if($indexOfMyServer!=-1)
+	$this->PutHomeServerFirst($indexOfMyServer);
+    }
+    
+    function PutHomeServerFirst ($indexOfMyServer)
+    {	if($indexOfMyServer!=-1)
 	{
 	    $firstServer = $this->Items[0];
 	    $this->Items[0] = $this->Items[$indexOfMyServer];
 	    $this->Items[$indexOfMyServer] = $firstServer;
 	}
     }
-    
+
 
 }
