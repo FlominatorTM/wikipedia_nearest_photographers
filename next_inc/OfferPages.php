@@ -9,12 +9,23 @@ class OfferPages
     public function  __construct($homeServer)
     {
 	$allServers = get_language_list(self::$CONFIG_DIR);
+	//$allServers = array("en.wikipedia.org", "pl.wikipedia.org");
 	
 	$indexOfMyServer = -1;
 	$i=0;
 	foreach($allServers as $oneServer)
 	{
-	    $this->Items[]= new OfferPage(self::$CONFIG_DIR, $oneServer );
+	    $ConfigFile = self::$CONFIG_DIR . '/' . $oneServer . '.php';
+	    if(!file_exists($ConfigFile))
+	    {
+		die(str_replace('_PROJECT_', $this->server, $messages['proj_not_supported']));
+	    }
+	    else
+	    {
+		include($ConfigFile);
+	    }
+	    $this->Items[]= $createdPage;
+	    
 	    if($oneServer == $homeServer)
 	    {
 		$indexOfMyServer = $i;

@@ -7,3 +7,5 @@ $TemplateLocation = 'Standort';
 $TemplateRange = 'Aktionsradius';
 $TemplateDateFrom = 'von';
 $TemplateDateUntil = 'bis';
+
+$createdPage = new OfferPageTemplate("de.wikipedia.org", $OfferPageName);

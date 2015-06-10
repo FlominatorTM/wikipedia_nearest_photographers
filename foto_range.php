@@ -9,6 +9,8 @@ include("shared_inc/language.inc.php");
 include("shared_inc/wiki_functions.inc.php");
 include('next_inc/OfferingUser.php');	
 include('next_inc/OfferPage.php');	
+include('next_inc/OfferPageTemplate.php');	
+include('next_inc/OfferPageTable.php');	
 include('next_inc/OfferPages.php');	
 include('next_inc/GeoLocation.php');	
 
@@ -45,7 +47,6 @@ if($article_to == "")
 	echo $messages['article_to'] . ': <input name="article_to" value="' . $article_to .'"/>' . $messages['article_to_descr'] .'<br>';
 	echo '<input type="submit" value="'. $messages['find_next'] .'"/>';
 	echo '</form>';
-
 }
 else
 {
@@ -57,30 +58,20 @@ else
     {
 	$allOfferPages = new OfferPages($server);
 	
-	$linkTemplate = "";
-	$linkOfferpage = "";
-
 	foreach($allOfferPages->Items as $offerPage)
 	{
 		
 		echo "<h2><a href=\"$offerPage->EncodedOfferPage\">$offerPage->server</a></h2>";
 		$offerPage->ListUsersToRequest($locTo);
-		if($offerPage->server == $server)
-		{
-			//todo: handle in if-statement above
-			$linkTemplate = "<a href=\"https://$offerPage->server/wiki/Template:".name_in_url($offerPage->templateName)."\">$offerPage->templateName</a>";
-			$linkOfferpage = "<a href=\"$offerPage->EncodedOfferPage\">".urldecode($offerPage->pageEncoded)."</a>"; 
-		}
 	}
-
-	if($linkTemplate!="")
-	{
-		$footNote = str_replace('_OFFER_PAGE_', $linkOfferpage, str_replace('_TEMPLATE_NAME_', $linkTemplate, $messages['you_on_list']));
-	}
+	
+	$homeOfferPage = $allOfferPages->Items[0];
+	$linkOfferpage = "<a href=\"$homeOfferPage->EncodedOfferPage\">".urldecode($homeOfferPage->pageEncoded)."</a>"; 
+	$footNote = str_replace('_OFFER_PAGE_', $linkOfferpage, $messages['you_on_list']);
     }
     else
     {
-	    echo str_replace('_LOCATION_', $requested, $messages['no_coordinates']);
+	echo str_replace('_LOCATION_', $requested, $messages['no_coordinates']);
     }
 
     echo "<br><br><a href=\"?lang=$lang&project=$project\">".$messages['new_request']."</a>";
@@ -95,11 +86,11 @@ else
 
 function print_debug($str)
 {
-	global $is_debug;
-	if($is_debug)
-	{
-		echo $str."\n";
-	}
+    global $is_debug;
+    if($is_debug)
+    {
+	echo $str."\n";
+    }
 }
 
 ?>
