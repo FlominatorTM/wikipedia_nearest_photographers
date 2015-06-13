@@ -26,10 +26,10 @@ class OfferPageTemplate extends OfferPage
     
     function GenerateUsers($page_src)
     {
-	echo "length" . strlen($page_src);
+	print_debug('length' . strlen($page_src));
 	if(strlen($page_src)==0)
 	{
-	    echo "page handed over to GenerateUsers was empty";
+	    print_debug('page handed over to GenerateUsers was empty');
 	    return;
 	}
 	$page_parts = explode('{{'.$this->TemplateName, $page_src);
@@ -65,7 +65,7 @@ class OfferPageTemplate extends OfferPage
 	
 	if(count($this->userOffers))
 	{
-	    echo ("<b>no users found - looks weird</b>");
+	    print_debug("<b>no users found - looks weird</b>");
 	}
     }
 	

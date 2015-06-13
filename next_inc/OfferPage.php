@@ -103,7 +103,7 @@ abstract class OfferPage
 		    }
 		    else
 		    {
-			echo "no cache written";
+			print_debug("no cache written");
 		    }
 			
 		}
