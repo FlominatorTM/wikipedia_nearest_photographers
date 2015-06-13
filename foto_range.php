@@ -11,6 +11,7 @@ include('next_inc/OfferingUser.php');
 include('next_inc/OfferPage.php');	
 include('next_inc/OfferPageTemplate.php');	
 include('next_inc/OfferPageTable.php');	
+include('next_inc/OfferPageTableFromFile.php');	
 include('next_inc/OfferPages.php');	
 include('next_inc/GeoLocation.php');	
 
