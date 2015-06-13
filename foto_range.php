@@ -1,9 +1,10 @@
+
 <?php
+//finds next photographer in range
+//underscore stuff is legacy, camel-cased is php 5
 
 header('Content-Type: text/html; charset=utf-8'); 
-//finds next photographer in range
-
-//underscore stuff is legacy, camel-cased is php 5
+echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">';
 
 include("shared_inc/language.inc.php");
 include("shared_inc/wiki_functions.inc.php");
