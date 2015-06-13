@@ -65,50 +65,58 @@ abstract class OfferPage
 
 	    if(!$cacheIsFine)
 	    {
-		print_debug("cache is not fine");
-		if(file_exists($cacheFile))
-		{
-		    print_debug("deleting cache");
-		    unlink($cacheFile);
-		}
-		$page = "https://".$this->server."/w/index.php?action=raw&title=".$this->pageEncoded;
-		print_debug($page);
-
-		$page_src = file_get_contents($page);
-
-		if($page_src == "")
-		{
-		    return "problem retrieving $page";
-		}
-		print_debug("page_src=".$page_src);
-		print_debug("<hr><hr>");
-		
-		$this->GenerateUsers($page_src);
-		if(count($this->userOffers)==0)
-		{
-		    die("no user offers");
-		}
-		    if($handleCacheFile = fopen($cacheFile, "w"))
-		    {
-			print_debug("attempting to write cache");
-			if(fputs($handleCacheFile, serialize($this->userOffers)))
-			{
-				print_debug("cache written");
-				if(fclose($handleCacheFile))
-				{
-					$this->UpdateCachedRevision($this->revisionCurrent);
-				}
-
-			}
-		    }
-		    else
-		    {
-			print_debug("no cache written");
-		    }
-			
-		}
+		$this->BuildNewCache($cacheFile);	
+	    }
 	}
 
+	protected function BuildNewCache($cacheFile)
+	{
+	    print_debug("cache is not fine");
+	    if(file_exists($cacheFile))
+	    {
+		print_debug("deleting cache");
+		unlink($cacheFile);
+	    }
+	    $this->GenerateUsers($this->GetPageSource());
+	    if(count($this->userOffers)==0)
+	    {
+		die("no user offers");
+	    }
+	    if($handleCacheFile = fopen($cacheFile, "w"))
+	    {
+		print_debug("attempting to write cache");
+		if(fputs($handleCacheFile, serialize($this->userOffers)))
+		{
+			print_debug("cache written");
+			if(fclose($handleCacheFile))
+			{
+				$this->UpdateCachedRevision($this->revisionCurrent);
+			}
+
+		}
+	    }
+	    else
+	    {
+		print_debug("no cache written");
+	    }
+	}
+	
+	protected function GetPageSource()
+	{
+	    $page = "https://".$this->server."/w/index.php?action=raw&title=".$this->pageEncoded;
+	    print_debug($page);
+
+	    $page_src = file_get_contents($page);
+
+	    if($page_src == "")
+	    {
+		return "problem retrieving $page";
+	    }
+	    print_debug("page_src=".$page_src);
+	    print_debug("<hr><hr>");
+	    return $page_src;
+	}
+	
 	function SetConfigValue($configArray, $index, &$valueToBeSet, $isRequired)
 	{
 	    if(array_key_exists($index, $configArray))
