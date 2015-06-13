@@ -2,11 +2,12 @@
 
 class OfferPageTemplate extends OfferPage
 {
-    private $TemplateUser;
-    private $TemplateLocation;
-    private $TemplateRange;
-    private $TemplateDateFrom;
-    private $TemplateDateUntil;
+    public $TemplateUser;
+    public $TemplateLocation;
+    public $TemplateRange;
+    public $TemplateDateFrom;
+    public $TemplateDateUntil;
+    public $TemplateName;
 
 
     public static $CACHE_DIR = 'next_inc/cached';
@@ -15,9 +16,13 @@ class OfferPageTemplate extends OfferPage
 	$this->Init($theServer, $OfferPageName);
     }
     
-    function InitSpecificVariables() {
-	global $TemplateName, $TemplateUser, $TemplateLocation, $TemplateRange, $TemplateDateFrom, $TemplateDateUntil;
-	$this->templateName = $TemplateName;
+        function InitSpecificVariables() 
+	    
+    {
+	
+	return;
+	echo "TamplateName=". $TemplateName;
+	$this->TemplateName = $TemplateName;
 	$this->TemplateUser = $TemplateUser;
 	$this->TemplateLocation = $TemplateLocation;
 	$this->TemplateRange = $TemplateRange;
@@ -31,7 +36,10 @@ class OfferPageTemplate extends OfferPage
 	{
 		 $this->TemplateDateUntil = $TemplateDateUntil;
 	}
+	$this->Init($theServer, $OfferPageName);
     }
+    
+
     
     function GenerateUsers($page_src)
     {
@@ -39,8 +47,8 @@ class OfferPageTemplate extends OfferPage
 
 	foreach($page_parts as $template)
 	{
-	    //print_debug("<hr>");
-	    //print_debug("<h1>template</h1>$template");
+	    print_debug("<hr>");
+	    print_debug("<h1>template</h1>$template");
 
 	    $usr = new OfferingUser(extract_template_parameter($template, $this->TemplateUser));
 

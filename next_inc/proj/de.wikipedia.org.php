@@ -9,3 +9,10 @@ $TemplateDateFrom = 'von';
 $TemplateDateUntil = 'bis';
 
 $createdPage = new OfferPageTemplate("de.wikipedia.org", $OfferPageName);
+$createdPage->OfferPageName = 'Wikipedia:Bilderangebote';
+$createdPage->TemplateName = 'Bilderangebot';
+$createdPage->TemplateUser = 'Benutzer';
+$createdPage->TemplateLocation = 'Standort';
+$createdPage->TemplateRange = 'Aktionsradius';
+$createdPage->TemplateDateFrom = 'von';
+$createdPage->TemplateDateUntil = 'bis';

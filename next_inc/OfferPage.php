@@ -2,11 +2,12 @@
 
 abstract class OfferPage
 {
-	private $userOffers;
+	protected $userOffers;
 	public $server;
 	public $pageEncoded;
 	public $EncodedOfferPage;
 	public $revisionCurrent;
+	public $OfferPageName;
         
 	public static $CACHE_DIR = 'next_inc/cached';
 	abstract function __construct($theServer, $OfferPageName) ;
@@ -18,19 +19,23 @@ abstract class OfferPage
 
 	    //echo "page=".$page;
 	    $this->server = $theServer;
+	    $this->OfferPageName = $OfferPageName;
 	    $this->pageEncoded = name_in_url($OfferPageName);
 	    $this->EncodedOfferPage = "https://$this->server/wiki/".$this->pageEncoded;
-	    $this->InitSpecificVariables();
-	    
+	}
+	
+	function InitAfter()
+	{
+	    global $is_debug;
 	    $cacheFile = self::$CACHE_DIR . '/' . $this->server . '.cache';
 	    if(!file_exists(self::$CACHE_DIR))
 	    {
 		mkdir(self::$CACHE_DIR, "0777");
 	    }
 
-	    $request_url="http://".$this->server."/w/api.php?action=query&prop=revisions&titles=".name_in_url($OfferPageName)."&format=xml";
-    //		echo "<br>reqiest". $request_url;
-	    @$xml = simplexml_load_file($request_url);
+	    $request_url="http://".$this->server."/w/api.php?action=query&prop=revisions&titles=".name_in_url($this->OfferPageName)."&format=xml";
+	    //echo "<br>reqiest". $request_url;
+	    $xml = simplexml_load_file($request_url);
 	    $this->revisionCurrent = $xml->query->pages->page->revisions->rev['revid'];
 	   // echo "opm:" . $OfferPageName;
 
@@ -69,27 +74,26 @@ abstract class OfferPage
 		print_debug("cache is not fine");
 		if(file_exists($cacheFile))
 		{
-			print_debug("deleting cache");
-			unlink($cacheFile);
+		    print_debug("deleting cache");
+		    unlink($cacheFile);
 		}
-		$page = "http://".$this->server."/w/index.php?action=raw&title=".$this->pageEncoded;
+		$page = "https://".$this->server."/w/index.php?action=raw&title=".$this->pageEncoded;
+		print_debug($page);
 
 		$page_src = removeheaders(get_request($this->server, $page, true ));
 
+		if($page_src == "")
+		{
+		    return "problem retrieving $page";
+		}
 		print_debug("page_src=".$page_src);
 		print_debug("<hr><hr>");
 		
 		$this->GenerateUsers($page_src);
-		
-		    if($this->server == "pl.wikipedia.org")
-		    {
-			    $this->GenerateUsersUsingList($page_src);
-		    }
-		    else
-		    {
-			    $this->GenerateUsersUsingTemplate($page_src);
-		    }
-
+		if(count($this->userOffers)==0)
+		{
+		    die("no user offers");
+		}
 		    if($handleCacheFile = fopen($cacheFile, "w"))
 		    {
 			print_debug("attempting to write cache");
@@ -102,6 +106,10 @@ abstract class OfferPage
 				}
 
 			}
+		    }
+		    else
+		    {
+			echo "no cache written";
 		    }
 			
 		}

@@ -34,6 +34,7 @@ if(isset($_REQUEST['debug']))
 $server = "$lang.$project.org";
 
 $article_to = "";
+$article_to = "Hinterzarten";
 if(isset($_REQUEST['article_to']))
 {
     $article_to = $_REQUEST['article_to'];
@@ -87,7 +88,7 @@ else
 function print_debug($str)
 {
     global $is_debug;
-    if($is_debug)
+    if(isset($is_debug) && $is_debug)
     {
 	echo $str."\n";
     }

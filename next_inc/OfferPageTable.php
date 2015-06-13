@@ -56,12 +56,12 @@ class OfferPageTable extends OfferPage
 			    $usr->SetLocation($location);
 			    if($usr->IsValid())
 			    {
-					    print_debug("user $usr->name is valid: ".$usr->ToString());
-					    $this->userOffers[] = $usr;
+				print_debug("user $usr->name is valid: ".$usr->ToString());
+				$this->userOffers[] = $usr;
 			    }
 			    else
 			    {
-				    print_debug("user $usr->name is <b>not</b> valid: ".$usr->ToString());
+				print_debug("user $usr->name is <b>not</b> valid: ".$usr->ToString());
 			    }
 
 		    }

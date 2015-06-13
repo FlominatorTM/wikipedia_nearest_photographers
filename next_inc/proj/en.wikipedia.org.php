@@ -7,3 +7,8 @@ $TemplateLocation = 'Location';
 $TemplateRange = 'Range';
 
 $createdPage = new OfferPageTemplate("en.wikipedia.org", $OfferPageName);
+$createdPage->TemplateName = $TemplateName;
+$createdPage->TemplateUser = $TemplateUser;
+$createdPage->TemplateLocation = $TemplateLocation;
+$createdPage->TemplateRange = $TemplateRange;
+
