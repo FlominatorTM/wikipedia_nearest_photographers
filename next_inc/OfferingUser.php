@@ -32,7 +32,7 @@ class OfferingUser
 	
 	function __construct($name_in) 
 	{
-		$this->name = $name_in;
+		$this->name = strip_tags($name_in);
 	}
 	
 	public function IsValid()
