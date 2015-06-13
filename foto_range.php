@@ -78,7 +78,7 @@ else
     }
     else
     {
-	echo str_replace('_LOCATION_', $requested, $messages['no_coordinates']);
+	echo str_replace('_LOCATION_', $linkToArticleTo, $messages['no_coordinates']);
     }
 
     echo "<br><br><a href=\"?lang=$lang&project=$project\">".$messages['new_request']."</a>";
