@@ -27,7 +27,7 @@ abstract class OfferPage
 		mkdir(self::$CACHE_DIR, "0777");
 	    }
 
-	    $request_url="http://".$this->server."/w/api.php?action=query&prop=revisions&titles=".name_in_url($this->OfferPageName)."&format=xml";
+	    $request_url="https://".$this->server."/w/api.php?action=query&prop=revisions&titles=".name_in_url($this->OfferPageName)."&format=xml";
 	    //echo "<br>reqiest". $request_url;
 	    $xml = simplexml_load_file($request_url);
 	    $this->revisionCurrent = $xml->query->pages->page->revisions->rev['revid'];
@@ -74,7 +74,7 @@ abstract class OfferPage
 		$page = "https://".$this->server."/w/index.php?action=raw&title=".$this->pageEncoded;
 		print_debug($page);
 
-		$page_src = removeheaders(get_request($this->server, $page, true ));
+		$page_src = file_get_contents($page);
 
 		if($page_src == "")
 		{
