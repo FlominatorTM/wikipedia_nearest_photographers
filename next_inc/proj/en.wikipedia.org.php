@@ -1,11 +1,9 @@
 <?php
 
-$config['TemplateName'] = 'Photographer Row';
-$config['TemplateUser'] = 'User';
-$config['TemplateLocation'] = 'Location';
-$config['TemplateRange'] = 'Range';
-//$config['TemplateDateFrom'] = '';
-//$config['TemplateDateUntil'] = '';
+$config['UserPrefixMale'] = 'User';
+$config['UserPrefixFemale'] = 'User';
+$config['IndexUserColumn'] = 0; //zero indexed
+$config['IndexLocationColumn'] = 2; //zero indexed
 
-$createdPage = new OfferPageTemplate("en.wikipedia.org", 'Wikipedia:Wikipedians/Photographers', $config);
+$createdPage = new OfferPageTable("en.wikipedia.org", 'Wikipedia:Wikipedians/Photographers', $config);
 
