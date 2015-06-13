@@ -1,14 +1,11 @@
 <?php
 
-$OfferPageName = 'Wikipedia:Wikipedians/Photographers';
-$TemplateName = 'Photographer Row';
-$TemplateUser = 'User';
-$TemplateLocation = 'Location';
-$TemplateRange = 'Range';
+$config['TemplateName'] = 'Photographer Row';
+$config['TemplateUser'] = 'User';
+$config['TemplateLocation'] = 'Location';
+$config['TemplateRange'] = 'Range';
+//$config['TemplateDateFrom'] = '';
+//$config['TemplateDateUntil'] = '';
 
-$createdPage = new OfferPageTemplate("en.wikipedia.org", $OfferPageName);
-$createdPage->TemplateName = $TemplateName;
-$createdPage->TemplateUser = $TemplateUser;
-$createdPage->TemplateLocation = $TemplateLocation;
-$createdPage->TemplateRange = $TemplateRange;
+$createdPage = new OfferPageTemplate("en.wikipedia.org", 'Wikipedia:Wikipedians/Photographers', $config);
 

@@ -9,7 +9,7 @@ class OfferPages
     public function  __construct($homeServer)
     {
 	$allServers = get_language_list(self::$CONFIG_DIR);
-	$allServers = array("de.wikipedia.org");
+	//$allServers = array("en.wikipedia.org");
 	
 	$indexOfMyServer = -1;
 	$i=0;
@@ -25,8 +25,7 @@ class OfferPages
 		include($ConfigFile);
 	    }
 	    $this->Items[]= $createdPage;
-	    $createdPage->InitAfter();
-	    
+    
 	    if($oneServer == $homeServer)
 	    {
 		$indexOfMyServer = $i;

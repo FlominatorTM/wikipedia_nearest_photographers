@@ -8,25 +8,19 @@ abstract class OfferPage
 	public $EncodedOfferPage;
 	public $revisionCurrent;
 	public $OfferPageName;
-        
-	public static $CACHE_DIR = 'next_inc/cached';
-	abstract function __construct($theServer, $OfferPageName) ;
-	abstract function InitSpecificVariables();
+
+	public static $CACHE_DIR = 'cached';
+	abstract function __construct($theServer, $OfferPageName,$MoreConfig) ;
 	abstract function  GenerateUsers($page_src);
 	function Init($theServer, $OfferPageName)
 	{
 	    global $messages, $is_debug;
-
 	    //echo "page=".$page;
 	    $this->server = $theServer;
 	    $this->OfferPageName = $OfferPageName;
 	    $this->pageEncoded = name_in_url($OfferPageName);
 	    $this->EncodedOfferPage = "https://$this->server/wiki/".$this->pageEncoded;
-	}
-	
-	function InitAfter()
-	{
-	    global $is_debug;
+
 	    $cacheFile = self::$CACHE_DIR . '/' . $this->server . '.cache';
 	    if(!file_exists(self::$CACHE_DIR))
 	    {
@@ -115,6 +109,21 @@ abstract class OfferPage
 		}
 	}
 
+	function SetConfigValue($configArray, $index, &$valueToBeSet, $isRequired)
+	{
+	    if(array_key_exists($index, $configArray))
+	    {
+		$valueToBeSet = $configArray [$index];
+	    }
+	    else
+	    {
+		if($isRequired)
+		{
+		    die("Required parameter " . $index . "not set");
+		}
+	    }
+	}
+	
 	function UpdateCachedRevision($rev)
 	{
 	    print_debug("updating cache revision file with $rev");
@@ -153,54 +162,58 @@ abstract class OfferPage
 		return $isCacheUpToDate ;
 	}
 	
+	public function HasUsers()
+	{
+	    return count($this->userOffers) > 0;
+	}
 	function ListUsersToRequest($locTo)
 	{
-		global $messages;
-		print_debug("locTo->ToString()=>" . $locTo->ToString());
-		foreach($this->userOffers as $usr)
+	    global $messages;
+	    print_debug("locTo->ToString()=>" . $locTo->ToString());
+	    foreach($this->userOffers as $usr)
+	    {
+		$usr->SetDistance($locTo);
+	    }
+
+	    usort($this->userOffers , array("OfferingUser", "CompareDistance"));
+
+	    foreach($this->userOffers as $usr)
+	    {
+		$resLine = $usr->LinkToUser($this->server) . "  (" . sprintf("%01.1f",$usr->distance)  . " km)";
+		if($usr->IsInRange())
 		{
-			$usr->SetDistance($locTo);
+			echo "<b>$resLine</b>";
 		}
-		
-		usort($this->userOffers , array("OfferingUser", "CompareDistance"));
-		
-		foreach($this->userOffers as $usr)
+		else
 		{
-			$resLine = $usr->LinkToUser($this->server) . "  (" . sprintf("%01.1f",$usr->distance)  . " km)";
-			if($usr->IsInRange())
+			echo "$resLine";
+		}
+
+		if($usr->HasDuration())
+		{
+		    echo " ";
+		    $now = time();
+
+		    if($usr->dateFrom < $now)
+		    {
+			if($usr->dateTo < $now)
 			{
-				echo "<b>$resLine</b>";
+			    echo str_replace('_DATE_', strftime("%x", $usr->dateTo), $messages['until_date_over']);
 			}
 			else
 			{
-				echo "$resLine";
+			    echo str_replace('_DATE_', strftime("%x", $usr->dateTo), $messages['until_date']);
 			}
-			
-			if($usr->HasDuration())
-			{
-				echo " ";
-				$now = time();
-
-				if($usr->dateFrom < $now)
-				{
-					if($usr->dateTo < $now)
-					{
-						echo str_replace('_DATE_', strftime("%x", $usr->dateTo), $messages['until_date_over']);
-					}
-					else
-					{
-						echo str_replace('_DATE_', strftime("%x", $usr->dateTo), $messages['until_date']);
-					}
-				}
-				else
-				{
-					$out = str_replace('_FIRST_DATE_', strftime("%x", $usr->dateFrom), $messages['between_dates']);
-					echo str_replace('_SECOND_DATE_', strftime("%x", $usr->dateTo), $out);
-				}
-			}
-			echo "<br>";
+		    }
+		    else
+		    {
+			$out = str_replace('_FIRST_DATE_', strftime("%x", $usr->dateFrom), $messages['between_dates']);
+			echo str_replace('_SECOND_DATE_', strftime("%x", $usr->dateTo), $out);
+		    }
 		}
-	}
+		echo "<br>";
+	    }
+    }
 	
 	
 

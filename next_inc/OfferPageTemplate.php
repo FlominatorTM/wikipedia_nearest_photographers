@@ -2,47 +2,36 @@
 
 class OfferPageTemplate extends OfferPage
 {
-    public $TemplateUser;
-    public $TemplateLocation;
-    public $TemplateRange;
-    public $TemplateDateFrom;
-    public $TemplateDateUntil;
-    public $TemplateName;
-
+    private $TemplateUser;
+    private $TemplateLocation;
+    private $TemplateRange;
+    private $TemplateDateFrom;
+    private $TemplateDateUntil;
+    private $TemplateName;
 
     public static $CACHE_DIR = 'next_inc/cached';
-    function __construct($theServer, $OfferPageName) 
+    function __construct($theServer, $OfferPageName, $MoreConfig) 
     {
+	$this->SetConfigValue($MoreConfig, "TemplateName", $this->TemplateName, true);
+	$this->SetConfigValue($MoreConfig, "TemplateUser", $this->TemplateUser, true);
+	$this->SetConfigValue($MoreConfig, "TemplateLocation", $this->TemplateLocation, true);
+	$this->SetConfigValue($MoreConfig, "TemplateRange", $this->TemplateRange, true);
+	$this->SetConfigValue($MoreConfig, "TemplateDateFrom", $this->TemplateDateFrom, false);
+	$this->SetConfigValue($MoreConfig, "TemplateDateUntil", $this->TemplateDateUntil, false);
 	$this->Init($theServer, $OfferPageName);
-    }
-    
-        function InitSpecificVariables() 
-	    
-    {
 	
-	return;
-	echo "TamplateName=". $TemplateName;
-	$this->TemplateName = $TemplateName;
-	$this->TemplateUser = $TemplateUser;
-	$this->TemplateLocation = $TemplateLocation;
-	$this->TemplateRange = $TemplateRange;
-
-	if(isset($TemplateDateFrom))
-	{
-	  $this->TemplateDateFrom = $TemplateDateFrom;
-	}
-
-	if(isset($TemplateDateUntil))
-	{
-		 $this->TemplateDateUntil = $TemplateDateUntil;
-	}
-	$this->Init($theServer, $OfferPageName);
     }
     
-
+ 
     
     function GenerateUsers($page_src)
     {
+	echo "length" . strlen($page_src);
+	if(strlen($page_src)==0)
+	{
+	    echo "page handed over to GenerateUsers was empty";
+	    return;
+	}
 	$page_parts = explode('{{'.$this->TemplateName, $page_src);
 
 	foreach($page_parts as $template)
@@ -72,6 +61,11 @@ class OfferPageTemplate extends OfferPage
 		print_debug("user $usr->name is valid: ".$usr->ToString());
 		$this->userOffers[] = $usr;
 	    }
+	}
+	
+	if(count($this->userOffers))
+	{
+	    echo ("<b>no users found - looks weird</b>");
 	}
     }
 	

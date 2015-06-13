@@ -34,7 +34,7 @@ if(isset($_REQUEST['debug']))
 $server = "$lang.$project.org";
 
 $article_to = "";
-$article_to = "Hinterzarten";
+//$article_to = "Hinterzarten";
 if(isset($_REQUEST['article_to']))
 {
     $article_to = $_REQUEST['article_to'];
@@ -61,9 +61,15 @@ else
 	
 	foreach($allOfferPages->Items as $offerPage)
 	{
-		
-		echo "<h2><a href=\"$offerPage->EncodedOfferPage\">$offerPage->server</a></h2>";
+	    echo "<h2><a href=\"$offerPage->EncodedOfferPage\">$offerPage->server</a></h2>";
+	    if($offerPage->HasUsers())
+	    {
 		$offerPage->ListUsersToRequest($locTo);
+	    }
+	    else
+	    {
+		echo "no users found";
+	    }
 	}
 	
 	$homeOfferPage = $allOfferPages->Items[0];

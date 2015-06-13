@@ -8,20 +8,15 @@ class OfferPageTable extends OfferPage
     private $IndexLocationColumn;
 
     public static $CACHE_DIR = 'next_inc/cached';
-    function __construct($theServer, $OfferPageName) 
+    function __construct($theServer, $OfferPageName, $conf) 
     {
+	$this->SetConfigValue($conf, 'UserPrefixMale', $this->UserPrefixMale, true);
+	$this->SetConfigValue($conf, 'UserPrefixFemale', $this->UserPrefixFemale, true);
+	$this->SetConfigValue($conf, 'IndexLocationColumn', $this->IndexLocationColumn, true);
+	$this->SetConfigValue($conf, 'IndexUserColumn', $this->IndexUserColumn, true);
 	$this->Init($theServer, $OfferPageName);
     }
-    
-    function InitSpecificVariables() 
-    {
-	global $UserPrefixMale, $UserPrefixFemale, $IndexLocationColumn, $IndexUserColumn;
-	$this->UserPrefixMale = $UserPrefixMale;
-	$this->UserPrefixFemale = $UserPrefixFemale;
-	$this->IndexLocationColumn = $IndexLocationColumn;
-	$this->IndexUserColumn = $IndexUserColumn;
-    }
-    
+
     function GenerateUsers($page_src)
     {
 	$page_parts = explode("|-", $page_src);
