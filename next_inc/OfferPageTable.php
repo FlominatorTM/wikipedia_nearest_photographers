@@ -30,6 +30,12 @@ class OfferPageTable extends OfferPage
 	    if(count($cols)>= max($this->IndexUserColumn, $this->IndexLocationColumn) )
 	    {
 		print_debug("cols is big enough");
+		$userColumnTrimmed = trim($cols[$this->IndexUserColumn]);
+		if($userColumnTrimmed[0]=="|")
+		{
+		    print_debug("user column starts with trailing |");
+		    $cols[$this->IndexUserColumn] = substr($userColumnTrimmed, 1);
+		}
 		$user_column_small = strtolower($cols[$this->IndexUserColumn]);
 		print_debug("user_column_small:" . $user_column_small  . "<br>");
 
