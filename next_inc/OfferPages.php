@@ -9,7 +9,7 @@ class OfferPages
     public function  __construct($homeServer)
     {
 	$allServers = get_language_list(self::$CONFIG_DIR);
-	//$allServers = array("en.wikipedia.org");
+	$allServers = array("en.wikipedia.org");
 	
 	$indexOfMyServer = -1;
 	$i=0;
