@@ -73,7 +73,11 @@ abstract class OfferPage
 
 	protected function BuildNewCache($cacheFile)
 	{
+	    global $messages;
 	    print_debug("cache is not fine");
+
+	    echo str_replace('__PAGE__', $this->Link, $messages['cache_outdated']).'<br>'; 
+		    
 	    if(file_exists($cacheFile))
 	    {
 		print_debug("deleting cache");

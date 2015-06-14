@@ -25,6 +25,7 @@ $messages['template_location'] = 'Standort';
 $messages['template_range'] = 'Aktionsradius';
 
 //result
+$messages['cache_outdated'] = "Pulling a fresh version of __PAGE__ and its entries, because cached version is outdated. This might take some minutes. Please be patient.";
 $messages['distance_to'] = 'Photographers distance to coordinates from [[_ARTICLE_TO_]] ';
 $messages['no_coordinates'] = 'location _LOCATION_ is invalid/does not have coordinates';
 $messages['proj_not_supported'] = 'project _PROJECT_ is currently not supported, please contact :de:user:Flominator for details';
