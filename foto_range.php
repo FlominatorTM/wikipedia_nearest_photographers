@@ -77,8 +77,7 @@ else
 	}
 	
 	$homeOfferPage = $allOfferPages->Items[0];
-	$linkOfferpage = "<a href=\"$homeOfferPage->EncodedOfferPage\">".urldecode($homeOfferPage->pageEncoded)."</a>"; 
-	$footNote = str_replace('_OFFER_PAGE_', $linkOfferpage, $messages['you_on_list']);
+	$footNote = str_replace('_OFFER_PAGE_', $homeOfferPage->Link, $messages['you_on_list']);
     }
     else
     {

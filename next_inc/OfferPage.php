@@ -4,10 +4,11 @@ abstract class OfferPage
 {
 	protected $userOffers;
 	public $server;
-	public $pageEncoded;
-	public $EncodedOfferPage;
+	private $pageEncoded;
+	private $EncodedOfferPage;
 	public $revisionCurrent;
 	public $OfferPageName;
+	public $Link;
 
 	public static $CACHE_DIR = 'cached';
 	abstract function __construct($theServer, $OfferPageName,$MoreConfig) ;
@@ -20,6 +21,7 @@ abstract class OfferPage
 	    $this->OfferPageName = $OfferPageName;
 	    $this->pageEncoded = name_in_url($OfferPageName);
 	    $this->EncodedOfferPage = "https://$this->server/wiki/".$this->pageEncoded;
+	    $this->Link = "<a href=\"$this->EncodedOfferPage\">".urldecode($this->pageEncoded)."</a>";
 
 	    $cacheFile = self::$CACHE_DIR . '/' . $this->server . '.cache';
 	    if(!file_exists(self::$CACHE_DIR))
