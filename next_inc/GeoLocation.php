@@ -25,7 +25,7 @@ class GeoLocation
 	    if($this->name != "")
 	    {	
 		set_time_limit(180);
-		$page="http://".$this->server."/w/api.php?action=query&prop=coordinates&titles=".name_in_url($this->name)."&format=xml";
+		$page="http://".$this->server."/w/api.php?action=query&prop=coordinates&titles=".name_in_url($this->name)."&format=xml&redirects";
 		print_debug($page);
 		$request_url = $page; 
 		@$xml = simplexml_load_file($request_url);
