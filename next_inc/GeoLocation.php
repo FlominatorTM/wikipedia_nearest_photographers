@@ -16,24 +16,31 @@ class GeoLocation
 	
 	private function getCoordinates()
 	{
-		if($this->name != "")
-		{		    set_time_limit(180);
-			$page="http://".$this->server."/w/api.php?action=query&prop=coordinates&titles=".name_in_url($this->name)."&format=xml";
-			print_debug($page);
-			$request_url = $page; 
-			@$xml = simplexml_load_file($request_url);
-			
-			if($xml)
-			{
-				//echo "<pre>"; var_dump($xml); echo "</pre>";
-				print_debug($xml->query->pages->page->coordinates->co['lon']."");
-				if($xml->query->pages->page->coordinates->co['lon']!="")
-				{
-					$this->lon = "".$xml->query->pages->page->coordinates->co['lon']; //without "" some XML object would be linked
-					$this->lat = "".$xml->query->pages->page->coordinates->co['lat'];
-				}
-			}
+	    if(false)
+	    {
+		$this->lat = 1;
+		$this->lon = 2;
+		return;
+	    }
+	    if($this->name != "")
+	    {	
+		set_time_limit(180);
+		$page="http://".$this->server."/w/api.php?action=query&prop=coordinates&titles=".name_in_url($this->name)."&format=xml";
+		print_debug($page);
+		$request_url = $page; 
+		@$xml = simplexml_load_file($request_url);
+
+		if($xml)
+		{
+		    //echo "<pre>"; var_dump($xml); echo "</pre>";
+		    print_debug($xml->query->pages->page->coordinates->co['lon']."");
+		    if($xml->query->pages->page->coordinates->co['lon']!="")
+		    {
+			$this->lon = "".$xml->query->pages->page->coordinates->co['lon']; //without "" some XML object would be linked
+			$this->lat = "".$xml->query->pages->page->coordinates->co['lat'];
+		    }
 		}
+	    }
 	}
 	
 	function ToString()
