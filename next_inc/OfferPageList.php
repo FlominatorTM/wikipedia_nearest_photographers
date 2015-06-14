@@ -51,6 +51,7 @@ class OfferPageList extends OfferPage
 	    if($userName && $locName)
 	    {
 		$usr = new OfferingUser($userName);
+		$usr->IsBeingRetrieved();
 		$location = new GeoLocation($locName, $this->server);
 		$usr->SetLocation($location);
 		if($usr->IsValid())

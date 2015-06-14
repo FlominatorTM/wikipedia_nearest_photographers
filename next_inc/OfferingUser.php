@@ -41,6 +41,12 @@ class OfferingUser
 		return $loc->IsValid();
 	}
 	
+	public function IsBeingRetrieved()
+	{
+	    global $messages;
+	    echo str_replace('__USER__', $this->name, $messages['user_retrieval'].'<br>');
+	}
+	
 	public function IsInRange()
 	{
 		return $this->range >= $this->distance;

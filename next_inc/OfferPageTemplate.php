@@ -40,7 +40,7 @@ class OfferPageTemplate extends OfferPage
 	    print_debug("<h1>template</h1>$template");
 
 	    $usr = new OfferingUser(extract_template_parameter($template, $this->TemplateUser));
-
+	    $usr->IsBeingRetrieved();
 	    $location = new GeoLocation(extract_template_parameter($template, $this->TemplateLocation), $this->server);
 	    $usr->SetLocation($location);
 	    print_debug("<b>".$location->name."</b>");

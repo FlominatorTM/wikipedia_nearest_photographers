@@ -53,6 +53,7 @@ class OfferPageTable extends OfferPage
 		    if($usr_name && $loc_name)
 		    {
 			    $usr = new OfferingUser($usr_name);
+			    $usr->IsBeingRetrieved();
 			    $location = new GeoLocation($loc_name, $this->server);
 			    $usr->SetLocation($location);
 			    if($usr->IsValid())

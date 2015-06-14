@@ -26,8 +26,9 @@ $messages['template_range'] = 'Aktionsradius';
 
 //result
 $messages['cache_outdated'] = "Pulling a fresh version of __PAGE__ and its entries, because cached version is outdated. This might take some minutes. Please be patient.";
+$messages['user_retrieval'] = "__USER__ is being retrieved";
 $messages['distance_to'] = 'Photographers distance to coordinates from [[_ARTICLE_TO_]] ';
-$messages['no_coordinates'] = 'location _LOCATION_ is invalid/does not have coordinates';
+$messages['no_coordinates'] = 'Location _LOCATION_ is invalid/does not have coordinates.';
 $messages['proj_not_supported'] = 'project _PROJECT_ is currently not supported, please contact :de:user:Flominator for details';
 $messages['new_request'] = 'Perform new search';
 $messages['between_dates'] = 'only between _FIRST_DATE_ and _SECOND_DATE_';
