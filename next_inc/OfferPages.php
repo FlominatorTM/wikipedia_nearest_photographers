@@ -14,6 +14,7 @@ class OfferPages
 	//$allServers = array("fr.wikipedia.org");
 	
 	$indexOfMyServer = -1;
+	$indexOfEnWp = -1;
 	$i=0;
 	foreach($allServers as $oneServer)
 	{
@@ -32,14 +33,23 @@ class OfferPages
 	    {
 		$indexOfMyServer = $i;
 	    }
+	    
+	    if($oneServer == "en.wikipedia.org")
+	    {
+		$indexOfEnWp = $i;
+	    }
 	    $i++;
 	}
-	
-	$this->PutHomeServerFirst($indexOfMyServer);
+	$this->PutHomeServerFirst($indexOfMyServer, $indexOfEnWp);
     }
     
-    function PutHomeServerFirst ($indexOfMyServer)
-    {	if($indexOfMyServer!=-1)
+    function PutHomeServerFirst ($indexOfMyServer, $indexOfEnWp)
+    {	if($indexOfMyServer==-1)
+	{
+	    $indexOfMyServer = $indexOfEnWp;
+	}
+	
+	if($indexOfMyServer!=-1)
 	{
 	    $firstServer = $this->Items[0];
 	    $this->Items[0] = $this->Items[$indexOfMyServer];
