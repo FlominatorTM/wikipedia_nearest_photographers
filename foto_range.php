@@ -53,6 +53,7 @@ if($article_to == "")
 }
 else
 {
+    log_search();
     $footNote = "";
     $linkToArticleTo = "<a href=\"https://$server/wiki/".name_in_url($article_to)."\">$article_to</a>";
     echo '<h1>' . str_replace('_ARTICLE_TO_', $linkToArticleTo, $messages['distance_to']) .'</h1>';
@@ -101,5 +102,42 @@ function print_debug($str)
 	echo $str."\n";
     }
 }
+
+function log_search ()
+{
+	global $article_to, $lang, $project, $server, $user_lang;
+	$logfile = "log/nearest_".strftime("%Y-%m-%d").".csv";
+
+	$header = "";
+	if(!file_exists($logfile))
+	{
+		$header="Day;";
+		$header.="Time;";
+		$header.="IP (Client);";
+		$header.="UI Language;";
+		$header.="Article;";
+		$header.="Language;";
+		$header.="Project;";
+		$header.="User-Agent;";
+		$header.="\n";
+	}
+	
+	if($file = fopen($logfile, "a"))
+	{
+		fputs($file, $header);
+		fputs($file, strftime("%Y-%m-%d").";");
+		fputs($file, strftime("%H:%M").";");
+		fputs($file, "\"".$_SERVER['REMOTE_ADDR']."\";");
+		fputs($file, $user_lang.";");
+		fputs($file, "\"".$article_to."\";");
+		fputs($file, $lang.";");
+		fputs($file, $project.";");
+		fputs($file, '"'.$_SERVER['HTTP_USER_AGENT'].'"'.";");
+		fputs($file, "\n");
+		fclose($file);
+	}
+	
+}
+
 
 ?>
