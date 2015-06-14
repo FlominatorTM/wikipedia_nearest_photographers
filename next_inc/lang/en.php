@@ -34,4 +34,4 @@ $messages['new_request'] = 'Perform new search';
 $messages['between_dates'] = 'only between _FIRST_DATE_ and _SECOND_DATE_';
 $messages['until_date']= 'only until _DATE_';
 $messages['until_date_over']= 'was there until _DATE_ :(';
-$messages['you_on_list']= 'You want to be on this list? Please your entry to _OFFER_PAGE_';
+$messages['you_on_list']= 'You want to be on this list? Please your entry to _OFFER_PAGE_. Is your project missing? File an issue with a link to the photographers list to be included here.';

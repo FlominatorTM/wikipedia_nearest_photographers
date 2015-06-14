@@ -12,7 +12,7 @@ $messages['article_to'] = 'Artikel';
 $messages['article_to_descr'] = 'Wikipedia-Artikel mit Koordinaten, an denen das Bild aufgenommen werden soll (z.B.  Stadt, Sehenswürdigkeit, Platz etc.)';
 $messages['find_next'] = 'Nächste Fotografen finden';
 $messages['manual'] = 'Anleitung';
-$messages['issues'] = 'Probleme und Feedback';
+$messages['issues'] = 'Issues und Feedback';
 $messages['manual_link'] = 'https://de.wikipedia.org/wiki/Wikipedia%3ABilderangebote';
 $messages['issue_link'] = 'https://github.com/FlominatorTM/wikipedia_nearest_photographers/issues';
 
@@ -33,4 +33,4 @@ $messages['new_request'] = 'Neue Suche durchführen';
 $messages['between_dates'] = 'nur zwischen _FIRST_DATE_ und _SECOND_DATE_';
 $messages['until_date']= 'nur noch bis _DATE_';
 $messages['until_date_over']= 'war bis _DATE_ dort :(';
-$messages['you_on_list']= 'Du willst auch auf dieser Liste zu finden sein? Füge deinen Eintrag auf der Seite _OFFER_PAGE_ ein.';
+$messages['you_on_list']= 'Du willst auch auf dieser Liste zu finden sein? Füge deinen Eintrag auf der Seite _OFFER_PAGE_ ein. Fehlt dein Projekt hier? Erstelle ein Issue mit einem Link zur Fotografenliste, die hier erscheinen soll.';
