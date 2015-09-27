@@ -44,7 +44,7 @@ class OfferingUser
 	public function IsBeingRetrieved()
 	{
 	    global $messages;
-	    echo str_replace('__USER__', $this->name, $messages['user_retrieval'].'<br>');
+		print_debug(str_replace('__USER__', $this->name, $messages['user_retrieval'].'<br>'));
 	}
 	
 	public function IsInRange()
