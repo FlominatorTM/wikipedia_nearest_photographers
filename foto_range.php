@@ -83,7 +83,7 @@ else
 	
 	foreach($allOfferPages->Items as $offerPage)
 	{
-	    echo "<h2><a href=\"$offerPage->EncodedOfferPage\">$offerPage->server</a></h2>";
+	    echo "<h2>$offerPage->Link</h2>";
 	    if($offerPage->HasUsers())
 	    {
 		$offerPage->ListUsersToRequest($locTo);

@@ -20,8 +20,8 @@ abstract class OfferPage
 	    $this->server = $theServer;
 	    $this->OfferPageName = $OfferPageName;
 	    $this->pageEncoded = name_in_url($OfferPageName);
-	    $this->EncodedOfferPage = "https://$this->server/wiki/".$this->pageEncoded;
-	    $this->Link = "<a href=\"$this->EncodedOfferPage\">".urldecode($this->pageEncoded)."</a>";
+	    $this->EncodedOfferPage = "https://".$this->server."/wiki/".$this->pageEncoded;
+	    $this->Link = '<a href="'.$this->EncodedOfferPage.'">'.urldecode($this->server).'</a>';
 
 	    $cacheFile = self::$CACHE_DIR . '/' . $this->server . '.cache';
 	    if(!file_exists(self::$CACHE_DIR))
@@ -180,6 +180,7 @@ abstract class OfferPage
 	{
 	    return count($this->userOffers) > 0;
 	}
+	
 	function ListUsersToRequest($locTo)
 	{
 	    global $messages;
