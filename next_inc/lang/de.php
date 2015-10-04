@@ -24,7 +24,7 @@ $messages['template_location'] = 'Standort';
 $messages['template_range'] = 'Aktionsradius';
 
 //result
-$messages['cache_outdated'] = "Herunterladen einer neuen Version of __PAGE__ und deren Einträgen, da die gespeicherte Version veraltet war. Dies kann einige Minuten dauern. Bitte sei geduldig.";
+$messages['cache_outdated'] = "Herunterladen einer neuen Version von __PAGE__ und deren Einträgen, da die gespeicherte Version veraltet war. Dies kann einige Minuten dauern. Bitte sei geduldig.";
 $messages['user_retrieval'] = "Benutzer __USER__ wird ausgelesen";
 $messages['distance_to'] = 'Fotografen nach Entfernung zu Koordinaten aus [[_ARTICLE_TO_]] ';
 $messages['no_coordinates'] = 'Der Artikel _LOCATION_ ist ungültig oder hat keine Koordinaten.';
