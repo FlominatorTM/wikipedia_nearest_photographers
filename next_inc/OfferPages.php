@@ -4,6 +4,7 @@ class OfferPages
 {
     public $Items;
     public $HomeOfferPage;
+    private $AllOffers;
     private static $CONFIG_DIR = 'next_inc/proj';
 
     public function  __construct($homeServer)
@@ -13,8 +14,6 @@ class OfferPages
 	//then I fucked up by checking in development code
 	//$allServers = array("fr.wikipedia.org");
 	
-	$indexOfMyServer = -1;
-	$indexOfEnWp = -1;
 	$i=0;
 	foreach($allServers as $oneServer)
 	{
@@ -28,34 +27,68 @@ class OfferPages
 		include($ConfigFile);
 	    }
 	    $this->Items[]= $createdPage;
-    
-	    if($oneServer == $homeServer)
-	    {
-		$indexOfMyServer = $i;
-	    }
-	    
-	    if($oneServer == "en.wikipedia.org")
-	    {
-		$indexOfEnWp = $i;
-	    }
 	    $i++;
 	}
-	$this->PutHomeServerFirst($indexOfMyServer, $indexOfEnWp);
     }
     
-    function PutHomeServerFirst ($indexOfMyServer, $indexOfEnWp)
-    {	if($indexOfMyServer==-1)
+    function MergeOffers($locTo)
+    {
+	foreach($this->Items as $oneOfferPage)
 	{
-	    $indexOfMyServer = $indexOfEnWp;
+	    $oneOfferPage->CalculateDistance($locTo);
+	    for($i=0;$i<$oneOfferPage->GetNumberOfUsers();$i++)
+	    {
+		$oneUser =  $oneOfferPage->GetUserAt($i);
+		if($oneUser->IsValid())
+		{
+		    $this->AllOffers[] = $oneUser;
+		}
+	    }
 	}
-	
-	if($indexOfMyServer!=-1)
+	usort($this->AllOffers , array("OfferingUser", "CompareDistance"));
+    }
+    
+    public function ListUsersToRequest()
+    {
+	global $messages;
+	foreach($this->AllOffers as $usr)
 	{
-	    $firstServer = $this->Items[0];
-	    $this->Items[0] = $this->Items[$indexOfMyServer];
-	    $this->Items[$indexOfMyServer] = $firstServer;
+	    $resLine = $usr->Link . "  (" . sprintf("%01.1f",$usr->distance)  . " km)";
+	    
+	    if($usr->IsInRange())
+	    {
+		    echo "<b>$resLine</b>";
+	    }
+	    else
+	    {
+		    echo "$resLine";
+	    }
+	    
+	    echo " <small>" . $usr->LinkHome . "</small>";
+
+	    if($usr->HasDuration())
+	    {
+		echo " ";
+		$now = time();
+
+		if($usr->dateFrom < $now)
+		{
+		    if($usr->dateTo < $now)
+		    {
+			echo str_replace('_DATE_', strftime("%x", $usr->dateTo), $messages['until_date_over']);
+		    }
+		    else
+		    {
+			echo str_replace('_DATE_', strftime("%x", $usr->dateTo), $messages['until_date']);
+		    }
+		}
+		else
+		{
+		    $out = str_replace('_FIRST_DATE_', strftime("%x", $usr->dateFrom), $messages['between_dates']);
+		    echo str_replace('_SECOND_DATE_', strftime("%x", $usr->dateTo), $out);
+		}
+	    }
+	    echo "<br>";
 	}
     }
-
-
 }

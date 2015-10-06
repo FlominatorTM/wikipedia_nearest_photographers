@@ -80,22 +80,8 @@ else
     if($locTo->IsValid())
     {
 	$allOfferPages = new OfferPages($server);
-	
-	foreach($allOfferPages->Items as $offerPage)
-	{
-	    echo "<h2>$offerPage->Link</h2>";
-	    if($offerPage->HasUsers())
-	    {
-		$offerPage->ListUsersToRequest($locTo);
-	    }
-	    else
-	    {
-		echo "no users found";
-	    }
-	}
-	
-	$homeOfferPage = $allOfferPages->Items[0];
-	$footNote = str_replace('_OFFER_PAGE_', $homeOfferPage->Link, $messages['you_on_list']);
+	$allOfferPages->MergeOffers($locTo);
+	$allOfferPages->ListUsersToRequest();
     }
     else
     {

@@ -178,58 +178,28 @@ abstract class OfferPage
 	
 	public function HasUsers()
 	{
-	    return count($this->userOffers) > 0;
+	    return $this->GetNumberOfUsers() > 0;
 	}
 	
-	function ListUsersToRequest($locTo)
+	public function CalculateDistance($locTo)
 	{
-	    global $messages;
 	    print_debug("locTo->ToString()=>" . $locTo->ToString());
 	    foreach($this->userOffers as $usr)
 	    {
 		$usr->SetDistance($locTo);
+		$usr->LinkToUser($this->server, $this->Link);
 	    }
-
 	    usort($this->userOffers , array("OfferingUser", "CompareDistance"));
-
-	    foreach($this->userOffers as $usr)
-	    {
-		$resLine = $usr->LinkToUser($this->server) . "  (" . sprintf("%01.1f",$usr->distance)  . " km)";
-		if($usr->IsInRange())
-		{
-			echo "<b>$resLine</b>";
-		}
-		else
-		{
-			echo "$resLine";
-		}
-
-		if($usr->HasDuration())
-		{
-		    echo " ";
-		    $now = time();
-
-		    if($usr->dateFrom < $now)
-		    {
-			if($usr->dateTo < $now)
-			{
-			    echo str_replace('_DATE_', strftime("%x", $usr->dateTo), $messages['until_date_over']);
-			}
-			else
-			{
-			    echo str_replace('_DATE_', strftime("%x", $usr->dateTo), $messages['until_date']);
-			}
-		    }
-		    else
-		    {
-			$out = str_replace('_FIRST_DATE_', strftime("%x", $usr->dateFrom), $messages['between_dates']);
-			echo str_replace('_SECOND_DATE_', strftime("%x", $usr->dateTo), $out);
-		    }
-		}
-		echo "<br>";
-	    }
-    }
+	}
 	
+	public function GetNumberOfUsers()
+	{
+	    return count($this->userOffers);
+	}
 	
+	public function GetUserAt($i)
+	{
+	    return $this->userOffers[$i];
+	}
 
 }

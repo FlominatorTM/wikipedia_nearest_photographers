@@ -3,11 +3,13 @@
 class OfferingUser
 {
     public $location;
-	public $range =-1;
-	public $name ="";
-	public $distance =-1; 
-	public $dateFrom;
-	public $dateTo;
+    public $range =-1;
+    public $name ="";
+    public $distance =-1; 
+    public $dateFrom;
+    public $dateTo;
+    public $Link;
+    public $LinkHome;
 
     public function ToString() {
 		$loc = $this->location;
@@ -60,10 +62,12 @@ class OfferingUser
         return ($a->distance > $b->distance) ? +1 : -1;
     }
 	
-	public function LinkToUser($server)
+	public function LinkToUser($server, $homeLink)
 	{
-		return "<a href=\"http://$server/wiki/User:" . $this->name . "\">" . $this->name . "</a>";
+	    $this->Link = "<a href=\"http://$server/wiki/User:" . $this->name . "\">" . $this->name . "</a>";
+	    $this->LinkHome = $homeLink;
 	}
+	
 	
 	public function SetDateRangeISO($from, $to)
 	{
