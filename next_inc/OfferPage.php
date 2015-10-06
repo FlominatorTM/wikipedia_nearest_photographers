@@ -189,7 +189,7 @@ abstract class OfferPage
 		$usr->SetDistance($locTo);
 		$usr->LinkToUser($this->server, $this->Link);
 	    }
-	    usort($this->userOffers , array("OfferingUser", "CompareDistance"));
+	    //usort($this->userOffers , array("OfferingUser", "CompareDistance"));
 	}
 	
 	public function GetNumberOfUsers()
