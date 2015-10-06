@@ -51,10 +51,20 @@ class OfferPages
     public function ListUsersToRequest()
     {
 	global $messages;
+	echo '<table border="1">';
+	echo "<tr>";
+	echo "<th>" . $messages['column_user'] ."</th>";
+	echo "<th>" . $messages['column_distance'] ."</th>";
+	echo "<th>" . $messages['column_wiki'] ."</th>";
+	echo "</tr>";
 	foreach($this->AllOffers as $usr)
 	{
-	    $resLine = $usr->Link . "  (" . sprintf("%01.1f",$usr->distance)  . " km)";
+	    echo "<tr>";
+	
 	    
+
+	     $resLine = "<td>" . $usr->Link ."</td>";
+	
 	    if($usr->IsInRange())
 	    {
 		    echo "<b>$resLine</b>";
@@ -64,7 +74,8 @@ class OfferPages
 		    echo "$resLine";
 	    }
 	    
-	    echo " <small>" . $usr->LinkHome . "</small>";
+	    echo "<td>" . sprintf("%01.1f",$usr->distance)  . " km</td>";
+	    echo ' <td>' . $usr->LinkHome . "</td>";
 
 	    if($usr->HasDuration())
 	    {
@@ -88,7 +99,9 @@ class OfferPages
 		    echo str_replace('_SECOND_DATE_', strftime("%x", $usr->dateTo), $out);
 		}
 	    }
-	    echo "<br>";
+	    //echo "<br>";
+	    echo "</tr>";
 	}
+	echo "</table>";
     }
 }
