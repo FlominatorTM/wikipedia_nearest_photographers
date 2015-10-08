@@ -82,6 +82,9 @@ else
 	$allOfferPages = new OfferPages($server);
 	$allOfferPages->MergeOffers($locTo);
 	$allOfferPages->ListUsersToRequest();
+	$homePage = $allOfferPages->HomeOfferPage;
+	$footNote = str_replace('_OFFER_PAGE_', $homePage->Link, $messages['you_on_list']);
+	$footNote = str_replace($homePage->server.'<', $homePage->OfferPageName.'<', $footNote);
     }
     else
     {

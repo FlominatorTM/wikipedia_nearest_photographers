@@ -27,6 +27,10 @@ class OfferPages
 		include($ConfigFile);
 	    }
 	    $this->Items[]= $createdPage;
+	    if($oneServer == $homeServer)
+	    {
+		$this->HomeOfferPage = $createdPage;
+	    }
 	    $i++;
 	}
     }
