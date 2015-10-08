@@ -7,6 +7,8 @@ class GeoLocation
 	public $iso = "";
 	public $name = "";
 	public $server;
+	public $exists;
+	public $hasCoordinates;
 	function __construct($article, $server_in)
 	{
 		$this->server = $server_in;
@@ -25,19 +27,33 @@ class GeoLocation
 	    if($this->name != "")
 	    {	
 		set_time_limit(180);
-		$page="http://".$this->server."/w/api.php?action=query&prop=coordinates&titles=".name_in_url($this->name)."&format=xml&redirects";
-		print_debug($page);
-		$request_url = $page; 
+		$request_url="http://".$this->server."/w/api.php?action=query&prop=coordinates&titles=".name_in_url($this->name)."&format=xml&redirects";
+		print_debug($request_url);
 		@$xml = simplexml_load_file($request_url);
 
 		if($xml)
 		{
 		    //echo "<pre>"; var_dump($xml); echo "</pre>";
 		    print_debug($xml->query->pages->page->coordinates->co['lon']."");
-		    if($xml->query->pages->page->coordinates->co['lon']!="")
+		    
+		    if($xml->query->pages->page['_idx']=="-1")
 		    {
-			$this->lon = "".$xml->query->pages->page->coordinates->co['lon']; //without "" some XML object would be linked
-			$this->lat = "".$xml->query->pages->page->coordinates->co['lat'];
+			$this->exists = false;
+		    }
+		    else
+		    {
+			$this->exists = true;
+			if($xml->query->pages->page->coordinates->co['lon']!="")
+			{
+			    $this->hasCoordinates = true;
+			    $this->lon = "".$xml->query->pages->page->coordinates->co['lon']; //without "" some XML object would be linked
+			    $this->lat = "".$xml->query->pages->page->coordinates->co['lat'];
+			}
+			else
+			{
+			    $this->hasCoordinates = false;
+			}
+
 		    }
 		}
 	    }
@@ -45,17 +61,17 @@ class GeoLocation
 	
 	function ToString()
 	{
-		return "Location $this->name at $this->lat/$this->lon";
+	    return "Location $this->name at $this->lat/$this->lon";
 	}
 	
 	function IsValid()
 	{
-		return $this->name != "" && $this->lat != -1 && $this->lon != -1;
+	    return $this->name != "" && $this->lat != -1 && $this->lon != -1;
 	}
 	
 	function GetDistanceTo($locTo)
 	{
-		return $this->calculateDistance($this->lat, $this->lon, $locTo->lat, $locTo->lon);
+	    return $this->calculateDistance($this->lat, $this->lon, $locTo->lat, $locTo->lon);
 	}
 	
 		/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
