@@ -29,15 +29,16 @@ class OfferPageList extends OfferPage
 	    }
 	    print_debug("<b>row</b>:" . $listEntry . "<br>");
 	    
-	    $indexOfFirstPipe = strpos($listEntry, "}}");
-	    $userName = substr($listEntry, 0, $indexOfFirstPipe);
+	    $indexOfTemplateEnd = strpos($listEntry, "}}");
+	    $userName = substr($listEntry, 0, $indexOfTemplateEnd);
+	    print_debug("index of template end=$indexOfTemplateEnd");
 	    
-	    
-	    $beginningOfDescription = $indexOfFirstPipe;
+	    $beginningOfDescription = $indexOfTemplateEnd;
 	    if(stristr($listEntry, "aka"))
 	    {
-		$indexOfEndOfAka = strpos($listEntry, "]])");
+		$indexOfEndOfAka = strpos($listEntry, "]])")  + strlen("]])");
 		$beginningOfDescription = $indexOfEndOfAka;
+		print_debug("aka found. index of end of aka is $indexOfEndOfAka <br>");
 	    }
 	    print_debug("<b>$userName</b>");
 	    if($locName = extract_link_target(substr($listEntry, $beginningOfDescription)))
