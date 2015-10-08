@@ -69,6 +69,11 @@ abstract class OfferPage
 	    {
 		$this->BuildNewCache($cacheFile);	
 	    }
+	    foreach($this->userOffers as $cachedUser )
+	    {
+		$cachedUser->LinkToUser($theServer, $this->Link);
+	    }
+
 	}
 
 	protected function BuildNewCache($cacheFile)
@@ -187,9 +192,7 @@ abstract class OfferPage
 	    foreach($this->userOffers as $usr)
 	    {
 		$usr->SetDistance($locTo);
-		$usr->LinkToUser($this->server, $this->Link);
 	    }
-	    //usort($this->userOffers , array("OfferingUser", "CompareDistance"));
 	}
 	
 	public function GetNumberOfUsers()

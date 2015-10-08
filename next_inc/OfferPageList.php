@@ -54,16 +54,7 @@ class OfferPageList extends OfferPage
 		$usr->IsBeingRetrieved();
 		$location = new GeoLocation($locName, $this->server);
 		$usr->SetLocation($location);
-		if($usr->IsValid())
-		{
-		    print_debug("user $usr->name is valid: ".$usr->ToString());
-		    $this->userOffers[] = $usr;
-		}
-		else
-		{
-		    print_debug("user $usr->name is <b>not</b> valid: ".$usr->ToString());
-		}
-
+		$this->userOffers[] = $usr;
 	    }
 	}
     }

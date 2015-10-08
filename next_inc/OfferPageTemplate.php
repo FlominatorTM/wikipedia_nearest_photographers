@@ -60,13 +60,7 @@ class OfferPageTemplate extends OfferPage
 	    // print_debug("<b>".$range."</b><br />");
 	    $usr->SetRange($range);
 
-	    //print_debug($usr->ToString());
-
-	    if($usr->IsValid())
-	    {
-		print_debug("user $usr->name is valid: ".$usr->ToString());
-		$this->userOffers[] = $usr;
-	    }
+	    $this->userOffers[] = $usr;
 	}
 	
 	if(count($this->userOffers))
