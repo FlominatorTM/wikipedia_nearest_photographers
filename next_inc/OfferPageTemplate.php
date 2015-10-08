@@ -34,8 +34,14 @@ class OfferPageTemplate extends OfferPage
 	}
 	$page_parts = explode('{{'.$this->TemplateName, $page_src);
 
+	$skippedFirstPart = false; 
 	foreach($page_parts as $template)
 	{
+	    if(!$skippedFirstPart)
+	    {
+		$skippedFirstPart = true;
+		continue;
+	    }
 	    print_debug("<hr>");
 	    print_debug("<h1>template</h1>$template");
 
