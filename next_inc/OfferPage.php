@@ -39,7 +39,8 @@ abstract class OfferPage
 
 	    if($is_debug)
 	    {
-		$useCache = false;
+		//print_debug("debugging ... skipping cache");
+		//$useCache = false;
 	    }
 	    $cacheIsFine = false;
 	    if($useCache)
