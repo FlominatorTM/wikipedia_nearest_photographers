@@ -99,6 +99,8 @@ else
     echo '<a href="' . $messages['manual_link'] . '">'. $messages['manual']  . '</a>';
     echo " - ";
     echo '<a href="' . $messages['issue_link'] . '">'. $messages['issues']  . '</a>';
+    echo " - ";
+    echo '<a href="foto_check.php">'. $messages['check_users']  . '</a>';
     echo ' - by <a href="http://de.wikipedia.org/wiki/Benutzer:Flominator">Flominator</a>';
 
 function print_debug($str)

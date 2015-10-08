@@ -13,6 +13,7 @@ $messages['article_to_descr'] = 'Wikipedia-Artikel mit Koordinaten, an denen das
 $messages['find_next'] = 'Nächste Fotografen finden';
 $messages['manual'] = 'Anleitung';
 $messages['issues'] = 'Issues und Feedback';
+$messages['check_users'] = 'Problem-Benutzer';
 $messages['manual_link'] = 'https://de.wikipedia.org/wiki/Wikipedia%3ABilderangebote';
 $messages['issue_link'] = 'https://github.com/FlominatorTM/wikipedia_nearest_photographers/issues';
 
@@ -38,6 +39,9 @@ $messages['until_date']= 'nur noch bis _DATE_';
 $messages['until_date_over']= 'war bis _DATE_ dort :(';
 $messages['you_on_list']= 'Du willst auch auf dieser Liste zu finden sein? Füge deinen Eintrag auf der Seite _OFFER_PAGE_ ein. Fehlt dein Projekt hier? Erstelle ein Issue mit einem Link zur Fotografenliste, die hier erscheinen soll.';
 
+//foto_check.php
+$messages['foto_check'] = 'Benutzer-Einträge mit einem Problem';
+$messages['back_to_range'] = 'zurück';
 $messages['column_location'] = 'erkannter Standort';
 $messages['column_problem'] = 'gefundenes Problem';
 $messages['problem_no_article'] = 'kein Artikel';

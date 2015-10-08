@@ -13,7 +13,8 @@ $messages['article_to'] = 'Article';
 $messages['article_to_descr'] = 'Wikipedia article with coordinates where picture should be taken at (e.g. some city, sight, place etc.)';
 $messages['find_next'] = 'Find closest photographers';
 $messages['manual'] = 'Manual';
-$messages['issues'] = 'issues + feedback ';
+$messages['issues'] = 'issues + feedback';
+$messages['check_users'] = 'problematic users';
 $messages['manual_link'] = 'https://en.wikipedia.org/wiki/User:Flominator/Find_Nearest_Photographer';
 $messages['issue_link'] = 'https://github.com/FlominatorTM/wikipedia_nearest_photographers/issues';
 
@@ -39,6 +40,9 @@ $messages['until_date']= 'only until _DATE_';
 $messages['until_date_over']= 'was there until _DATE_ :(';
 $messages['you_on_list']= 'You want to be on this list? Please your entry to _OFFER_PAGE_. Is your project missing? File an issue with a link to the photographers list to be included here.';
 
+//foto_check.php
+$messages['foto_check'] = 'User entries that have a problem';
+$messages['back_to_range'] = 'back';
 $messages['column_location'] = 'Location detected';
 $messages['column_problem'] = 'Problem found';
 $messages['problem_no_article'] = 'no article';

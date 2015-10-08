@@ -53,10 +53,12 @@ if(isset($_REQUEST['debug']))
 $server = "$lang.$project.org";
 $allOfferPages = new OfferPages($server);
 
+echo '<h1>'. $messages['foto_check'].'</h1>';
+echo '<a href="foto_range.php">'. $messages['back_to_range'] .'</a>';
 
 foreach($allOfferPages->Items as $oneOfferPage)
 {
-    echo "<h1> $oneOfferPage->Link </h1>";
+    echo "<h2> $oneOfferPage->Link </h2>";
     echo '<table border="1">';
     echo '  <colgroup>';
     echo '<col width="100">';
