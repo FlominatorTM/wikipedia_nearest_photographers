@@ -40,14 +40,25 @@ $user_lang = read_language();
 get_language('en', $inc_dir); //not translated messages will be printed in English
 get_language($user_lang, $inc_dir);
 
-// $usr = new OfferingUser("Flominator");
-// $usr->SetDateRangeISO("2013-12-20", "2014-04-01");
-
-// die("done");
 $is_debug = false;
 if(isset($_REQUEST['debug']))
 {
     $is_debug = ($_REQUEST['debug']=="on" || $_REQUEST['debug']=="true" );
+}
+
+
+
+if(isset($_REQUEST['purge']))
+{
+   $whatToPurge = trim($_REQUEST['purge']);
+   if($whatToPurge[0]!='.')
+   {
+       $cacheFile = './cached/' . $whatToPurge . '.rev';
+       if(file_exists($cacheFile))
+       {
+	   unlink($cacheFile);
+       }
+   }  
 }
 
 $server = "$lang.$project.org";
@@ -58,7 +69,7 @@ echo '<a href="foto_range.php">'. $messages['back_to_range'] .'</a>';
 
 foreach($allOfferPages->Items as $oneOfferPage)
 {
-    echo "<h2> $oneOfferPage->Link </h2>";
+    echo "<h2> $oneOfferPage->Link </h2>"; 
     echo '<table border="1">';
     echo '  <colgroup>';
     echo '<col width="100">';
@@ -70,12 +81,15 @@ foreach($allOfferPages->Items as $oneOfferPage)
     echo '<th>' .$messages['column_location'].'</th>';
     echo '<th>' .$messages['column_problem'].'</th>';
     echo '</tr>';
+    
+    $count= 0;
     for($i=0;$i<$oneOfferPage->GetNumberOfUsers();$i++)
     {
 	
 	$usr = $oneOfferPage->GetUserAt($i);
 	if(!$usr->IsValid())
 	{
+	    $count++;
 	    echo '<tr>';
 	    echo '<td>'.  $usr->Link . '</td>';
 	    echo '<td>'.  '<a href="https://' . $oneOfferPage->server . '/wiki/' . $usr->location->name . '">' . $usr->location->name . '</a>' . '</td>';
@@ -97,7 +111,8 @@ foreach($allOfferPages->Items as $oneOfferPage)
 	
     }
     echo '</table>';
-    
+    echo str_replace('__NUMBER_OF_ITEMS__', $count, $messages['items_found']);
+    echo ' - <a href="?purge=' . $oneOfferPage->server . '">' .$messages['purge_cache'] . '</a>';    
 }
 
 function print_debug($str)
