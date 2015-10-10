@@ -47,5 +47,6 @@ $messages['column_location'] = 'Location detected';
 $messages['column_problem'] = 'Problem found';
 $messages['problem_no_article'] = 'no article';
 $messages['problem_no_coordinates'] = 'coordinates missing';	
+$messages['problem_fallback'] = 'Fallback: de.wp';	
 $messages['purge_cache'] = 'purge cache';
 $messages['items_found'] = '__NUMBER_OF_ITEMS__ entries found';

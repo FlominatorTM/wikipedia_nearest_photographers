@@ -87,7 +87,7 @@ foreach($allOfferPages->Items as $oneOfferPage)
     {
 	
 	$usr = $oneOfferPage->GetUserAt($i);
-	if(!$usr->IsValid())
+	if(!$usr->IsValid()  || $usr->location->onlyFallback)
 	{
 	    $count++;
 	    echo '<tr>';
@@ -103,6 +103,11 @@ foreach($allOfferPages->Items as $oneOfferPage)
 		if(!$usr->location->hasCoordinates)
 		{
 		    echo $messages['problem_no_coordinates'];
+		}
+		else if($usr->location->onlyFallback)
+		{
+		    echo $messages['problem_no_coordinates'].'<br>';
+		    echo '<i>'.$messages['problem_fallback'].'</i>';
 		}
 	    }
 	    echo '</td>';

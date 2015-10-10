@@ -9,6 +9,7 @@ class GeoLocation
 	public $server;
 	public $exists;
 	public $hasCoordinates;
+	public $onlyFallback;
 	function __construct($article, $server_in)
 	{
 		$this->server = $server_in;
@@ -18,16 +19,14 @@ class GeoLocation
 	
 	private function getCoordinates()
 	{
-	    if(false)
-	    {
-		$this->lat = 1;
-		$this->lon = 2;
-		return;
-	    }
+	    $this->tryGetCoordinates($this->server);
+	}
+	private function tryGetCoordinates($server)
+	{
 	    if($this->name != "")
 	    {	
 		set_time_limit(180);
-		$request_url="http://".$this->server."/w/api.php?action=query&prop=coordinates&titles=".name_in_url($this->name)."&format=xml&redirects";
+		$request_url="http://".$server."/w/api.php?action=query&prop=coordinates&titles=".name_in_url($this->name)."&format=xml&redirects";
 		print_debug($request_url);
 		@$xml = simplexml_load_file($request_url);
 
@@ -52,6 +51,19 @@ class GeoLocation
 			else
 			{
 			    $this->hasCoordinates = false;
+			    if($server!='de.wikipedia.org')
+			    {
+				$this->tryGetCoordinates('de.wikipedia.org');
+				if($this->hasCoordinates)
+				{
+				    $this->onlyFallback = true;
+				}
+				
+				if(!$this->exists)
+				{
+				    $this->exists = true;
+				}
+			    }
 			}
 
 		    }
