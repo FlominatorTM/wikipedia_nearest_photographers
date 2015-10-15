@@ -15,7 +15,7 @@ abstract class OfferPage
 	abstract function  GenerateUsers($page_src);
 	function Init($theServer, $OfferPageName)
 	{
-	    global $messages, $is_debug;
+	    global $is_debug;
 	    //echo "page=".$page;
 	    $this->server = $theServer;
 	    $this->OfferPageName = $OfferPageName;
@@ -79,10 +79,10 @@ abstract class OfferPage
 
 	protected function BuildNewCache($cacheFile)
 	{
-	    global $messages;
+	    global $I18N;
 	    print_debug("cache is not fine");
 
-	    echo str_replace('__PAGE__', $this->Link, $messages['cache_outdated']).'<br>'; 
+	    echo $I18N->msg( 'cache_outdated', array('variables' => array($this->Link))).'<br>'; 
 		    
 	    if(file_exists($cacheFile))
 	    {

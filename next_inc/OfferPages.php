@@ -9,30 +9,31 @@ class OfferPages
 
     public function  __construct($homeServer)
     {
-	$allServers = get_language_list(self::$CONFIG_DIR);
-	//if the following line is not commented out,
-	//then I fucked up by checking in development code
-	//$allServers = array("fr.wikipedia.org");
-	
-	$i=0;
-	foreach($allServers as $oneServer)
-	{
-	    $ConfigFile = self::$CONFIG_DIR . '/' . $oneServer . '.php';
-	    if(!file_exists($ConfigFile))
-	    {
-		die(str_replace('_PROJECT_', $this->server, $messages['proj_not_supported']));
-	    }
-	    else
-	    {
-		include($ConfigFile);
-	    }
-	    $this->Items[]= $createdPage;
-	    if($oneServer == $homeServer)
-	    {
-		$this->HomeOfferPage = $createdPage;
-	    }
-	    $i++;
-	}
+		global $I18N;
+		$allServers = get_language_list(self::$CONFIG_DIR);
+		//if the following line is not commented out,
+		//then I fucked up by checking in development code
+		//$allServers = array("fr.wikipedia.org");
+		
+		$i=0;
+		foreach($allServers as $oneServer)
+		{
+			$ConfigFile = self::$CONFIG_DIR . '/' . $oneServer . '.php';
+			if(!file_exists($ConfigFile))
+			{
+			die($I18N->msg( 'proj_not_supported', array('variables' => array( $this->server ))));
+			}
+			else
+			{
+			include($ConfigFile);
+			}
+			$this->Items[]= $createdPage;
+			if($oneServer == $homeServer)
+			{
+			$this->HomeOfferPage = $createdPage;
+			}
+			$i++;
+		}
     }
     
     function MergeOffers($locTo)
@@ -54,12 +55,12 @@ class OfferPages
     
     public function ListUsersToRequest()
     {
-	global $messages;
+	global $I18N;
 	echo '<table border="1">';
 	echo "<tr>";
-	echo "<th>" . $messages['column_user'] ."</th>";
-	echo "<th>" . $messages['column_distance'] ."</th>";
-	echo "<th>" . $messages['column_wiki'] ."</th>";
+	echo "<th>" . $I18N->msg( 'column_user') ."</th>";
+	echo "<th>" . $I18N->msg( 'column_distance') ."</th>";
+	echo "<th>" . $I18N->msg( 'column_wiki') ."</th>";
 	echo "</tr>";
 	foreach($this->AllOffers as $usr)
 	{
@@ -90,17 +91,16 @@ class OfferPages
 		{
 		    if($usr->dateTo < $now)
 		    {
-			echo str_replace('_DATE_', strftime("%x", $usr->dateTo), $messages['until_date_over']);
+			echo $I18N->msg( 'until_date_over', array('variables' => aray(strftime("%x", $usr->dateTo))));
 		    }
 		    else
 		    {
-			echo str_replace('_DATE_', strftime("%x", $usr->dateTo), $messages['until_date']);
+			echo $I18N->msg( 'until_date'),  array('variables' => aray(strftime("%x", $usr->dateTo)));
 		    }
 		}
 		else
 		{
-		    $out = str_replace('_FIRST_DATE_', strftime("%x", $usr->dateFrom), $messages['between_dates']);
-		    echo str_replace('_SECOND_DATE_', strftime("%x", $usr->dateTo), $out);
+		    echo $I18N->msg( 'between_dates'),  array('variables' => aray(strftime("%x", $usr->dateFrom), strftime("%x", $usr->dateTo)));
 		}
 	    }
 	    //echo "<br>";

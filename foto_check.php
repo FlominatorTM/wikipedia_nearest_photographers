@@ -16,11 +16,11 @@ if(isset($_REQUEST['purge']))
    }  
 }
 
-$server = "$lang.$project.org";
+
 $allOfferPages = new OfferPages($server);
 
-echo '<h1>'. $messages['foto_check'].'</h1>';
-echo '<a href="foto_range.php">'. $messages['back_to_range'] .'</a>';
+echo '<h1>'.  $I18N->msg( 'foto_check').'</h1>';
+echo '<a href="foto_range.php">'. $I18N->msg( 'back_to_range') .'</a>';
 
 foreach($allOfferPages->Items as $oneOfferPage)
 {
@@ -32,9 +32,9 @@ foreach($allOfferPages->Items as $oneOfferPage)
     echo '<col width="100">';
     echo '</colgroup>';
     echo '<tr>';
-    echo '<th>' .$messages['column_user'].'</th>';
-    echo '<th>' .$messages['column_location'].'</th>';
-    echo '<th>' .$messages['column_problem'].'</th>';
+    echo '<th>' .$I18N->msg( 'column_user').'</th>';
+    echo '<th>' .$I18N->msg( 'column_location').'</th>';
+    echo '<th>' .$I18N->msg( 'column_problem').'</th>';
     echo '</tr>';
     
     $count= 0;
@@ -51,18 +51,18 @@ foreach($allOfferPages->Items as $oneOfferPage)
 	    echo '<td>';
 	    if(!$usr->location->exists)
 	    {
-		echo $messages['problem_no_article'];
+		echo $I18N->msg( 'problem_no_article');
 	    }
 	    else
 	    {
 		if(!$usr->location->hasCoordinates)
 		{
-		    echo $messages['problem_no_coordinates'];
+		    echo $I18N->msg( 'problem_no_coordinates');
 		}
 		else if($usr->location->onlyFallback)
 		{
-		    echo $messages['problem_no_coordinates'].'<br>';
-		    echo '<i>'.$messages['problem_fallback'].'</i>';
+		    echo $I18N->msg( 'problem_no_coordinates').'<br>';
+		    echo '<i>'.$I18N->msg( 'problem_fallback').'</i>';
 		}
 	    }
 	    echo '</td>';
@@ -71,8 +71,8 @@ foreach($allOfferPages->Items as $oneOfferPage)
 	
     }
     echo '</table>';
-    echo str_replace('__NUMBER_OF_ITEMS__', $count, $messages['items_found']);
-    echo ' - <a href="?purge=' . $oneOfferPage->server . '">' .$messages['purge_cache'] . '</a>';    
+    echo $I18N->msg( 'items_found', array('variables'=> array( $count) , 'parsemag' => true ));
+    echo ' - <a href="?purge=' . $oneOfferPage->server . '">' .$I18N->msg( 'purge_cache') . '</a>';    
 }
 
 function print_debug($str)
@@ -83,6 +83,4 @@ function print_debug($str)
 	echo $str."\n";
     }
 }
-
-
 ?>

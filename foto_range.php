@@ -9,12 +9,12 @@ if(isset($_REQUEST['article_to']))
 }
 if($article_to == "")
 {
-        echo '<h1>' . $messages['headline'] . '</h1>';
+        echo '<h1>' . $I18N->msg( 'headline' ) . '</h1>';
 	echo '<form>';
-	echo $messages['lang'] . ': <input name="lang" value="' . $lang .'"/> ' . $messages['lang_example'] .'<br>';
-	echo $messages['project'] . ': <input name="project" value="' . $project .'"/>' . $messages['project_example'] .'<br>';
-	echo $messages['article_to'] . ': <input name="article_to" value="' . $article_to .'"/>' . $messages['article_to_descr'] .'<br>';
-	echo '<input type="submit" value="'. $messages['find_next'] .'"/>';
+	echo $I18N->msg( 'lang') . ': <input name="lang" value="' . $lang .'"/> ' . $I18N->msg( 'lang_example') .'<br>';
+	echo $I18N->msg( 'project') . ': <input name="project" value="' . $project .'"/>' . $I18N->msg( 'project_example') .'<br>';
+	echo $I18N->msg( 'article_to') . ': <input name="article_to" value="' . $article_to .'"/>' . $I18N->msg( 'article_to_descr') .'<br>';
+	echo '<input type="submit" value="'. $I18N->msg( 'find_next') .'"/>';
 	echo '</form>';
 }
 else
@@ -22,7 +22,7 @@ else
     log_search();
     $footNote = "";
     $linkToArticleTo = "<a href=\"https://$server/wiki/".name_in_url($article_to)."\">$article_to</a>";
-    echo '<h1>' . str_replace('_ARTICLE_TO_', $linkToArticleTo, $messages['distance_to']) .'</h1>';
+    echo '<h1>' . $I18N->msg( 'distance_to', array('variables' =>array($linkToArticleTo))) .'</h1>';
     $locTo = new GeoLocation($article_to, $server);
     if($locTo->IsValid())
     {
@@ -30,26 +30,26 @@ else
 	$allOfferPages->MergeOffers($locTo);
 	$allOfferPages->ListUsersToRequest();
 	$homePage = $allOfferPages->HomeOfferPage;
-	$footNote = str_replace('_OFFER_PAGE_', $homePage->Link, $messages['you_on_list']);
+	$footNote = str_replace('_OFFER_PAGE_', $homePage->Link, $I18N->msg( 'you_on_list'));
 	$footNote = str_replace($homePage->server.'<', $homePage->OfferPageName.'<', $footNote);
     }
     else
     {
-	echo str_replace('_LOCATION_', $linkToArticleTo, $messages['no_coordinates']);
+	echo $I18N->msg( 'no_coordinates', array('variables' => array($linkToArticleTo)) );
     }
 
-    echo "<br><br><a href=\"?lang=$lang&project=$project\">".$messages['new_request']."</a>";
+    echo "<br><br><a href=\"?lang=$lang&project=$project\">".$I18N->msg( 'new_request')."</a>";
     echo "<br><hr>$footNote";
 }
 
     echo "<br><hr>";
-    echo '<a href="' . $messages['manual_link'] . '">'. $messages['manual']  . '</a>';
+    echo '<a href="' . $I18N->msg( 'manual_link') . '">'. $I18N->msg( 'manual')  . '</a>';
     echo " - ";
-    echo '<a href="' . $messages['issue_link'] . '">'. $messages['issues']  . '</a>';
+    echo '<a href="' . $I18N->msg( 'issue_link') . '">'. $I18N->msg( 'issues')  . '</a>';
     echo " - ";
-    echo '<a href="foto_check.php">'. $messages['check_users']  . '</a>';
+    echo '<a href="foto_check.php">'. $I18N->msg( 'check_users')  . '</a>';
     echo ' - by <a href="http://de.wikipedia.org/wiki/Benutzer:Flominator">Flominator</a>';
-
+	echo $I18N->getPromoBox( 32, TSINT_HELP_ALL );
 function print_debug($str)
 {
     global $is_debug;

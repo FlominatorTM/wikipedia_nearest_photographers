@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 
-//$I18N = new Intuition( 'next_photographer' );
-//$I18N->registerDomain( 'next_photographer', __DIR__ . '/next_inc/lang/' );
+$I18N = new Intuition( 'next_photographer' );
+$I18N->registerDomain( 'next_photographer', __DIR__ . '/next_inc/lang/' );
 
 forward_output_directly();
  
@@ -19,14 +19,6 @@ include('next_inc/OfferPageTableFromFile.php');
 include('next_inc/OfferPages.php');	
 include('next_inc/GeoLocation.php');	
 
-
-//$inc_dir = "next_inc/lang";
-//get the language file 
-$user_lang = read_language();
-get_language('en', $inc_dir); //not translated messages will be printed in English
-get_language($user_lang, $inc_dir);
-
-// die("done");
 $is_debug = false;
 if(isset($_REQUEST['debug']))
 {
