@@ -96,7 +96,7 @@ class OfferingUser
 	
 	private function generateDateFromISO($dateParts)
 	{
-		return mktime(12, 0, 0, $dateParts[1], $dateParts[2], $dateParts[0]))
+		return mktime(12, 0, 0, $dateParts[1], $dateParts[2], $dateParts[0]);
 	}
 	
 }
