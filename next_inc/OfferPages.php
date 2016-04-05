@@ -65,10 +65,7 @@ class OfferPages
 	foreach($this->AllOffers as $usr)
 	{
 	    echo "<tr>";
-	
-	    
-
-	     $resLine = "<td>" . $usr->Link ."</td>";
+	     $resLine = "<td>" . $usr->Link;
 	
 	    if($usr->IsInRange())
 	    {
@@ -79,31 +76,31 @@ class OfferPages
 		    echo "$resLine";
 	    }
 	    
-	    echo "<td>" . sprintf("%01.1f",$usr->distance)  . " km</td>";
-	    echo ' <td>' . $usr->LinkHome . "</td>";
-
 	    if($usr->HasDuration())
 	    {
-		echo " ";
-		$now = time();
+			echo "<br/><small>";
+			$now = time();
 
-		if($usr->dateFrom < $now)
-		{
-		    if($usr->dateTo < $now)
-		    {
-			echo $I18N->msg( 'until_date_over', array('variables' => array(strftime("%x", $usr->dateTo))));
-		    }
-		    else
-		    {
-			echo $I18N->msg( 'until_date',  array('variables' => array(strftime("%x", $usr->dateTo))));
-		    }
-		}
-		else
-		{
-		    echo $I18N->msg( 'between_dates',  array('variables' => array(strftime("%x", $usr->dateFrom), strftime("%x", $usr->dateTo))));
-		}
+			if($usr->dateFrom < $now)
+			{
+				if($usr->dateTo < $now)
+				{
+				echo $I18N->msg( 'until_date_over', array('variables' => array(strftime("%x", $usr->dateTo))));
+				}
+				else
+				{
+				echo $I18N->msg( 'until_date',  array('variables' => array(strftime("%x", $usr->dateTo))));
+				}
+			}
+			else
+			{
+				echo $I18N->msg( 'between_dates',  array('variables' => array(strftime("%x", $usr->dateFrom), strftime("%x", $usr->dateTo))));
+			}
+			echo "</small>";
 	    }
-	    //echo "<br>";
+		echo '</td>';
+		echo "<td>" . sprintf("%01.1f",$usr->distance)  . " km</td>";
+	    echo ' <td>' . $usr->LinkHome . "</td>";
 	    echo "</tr>";
 	}
 	echo "</table>";
