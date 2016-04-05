@@ -91,16 +91,16 @@ class OfferPages
 		{
 		    if($usr->dateTo < $now)
 		    {
-			echo $I18N->msg( 'until_date_over', array('variables' => aray(strftime("%x", $usr->dateTo))));
+			echo $I18N->msg( 'until_date_over', array('variables' => array(strftime("%x", $usr->dateTo))));
 		    }
 		    else
 		    {
-			echo $I18N->msg( 'until_date'),  array('variables' => aray(strftime("%x", $usr->dateTo)));
+			echo $I18N->msg( 'until_date',  array('variables' => array(strftime("%x", $usr->dateTo))));
 		    }
 		}
 		else
 		{
-		    echo $I18N->msg( 'between_dates'),  array('variables' => aray(strftime("%x", $usr->dateFrom), strftime("%x", $usr->dateTo)));
+		    echo $I18N->msg( 'between_dates',  array('variables' => array(strftime("%x", $usr->dateFrom), strftime("%x", $usr->dateTo))));
 		}
 	    }
 	    //echo "<br>";
