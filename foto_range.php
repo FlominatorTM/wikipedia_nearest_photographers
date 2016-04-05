@@ -62,6 +62,7 @@ function print_debug($str)
 function log_search ()
 {
 	global $article_to, $lang, $project, $server, $user_lang;
+	if(!is_dir("log")) mkdir ("log");
 	$logfile = "log/nearest_".strftime("%Y-%m-%d").".csv";
 
 	$header = "";
