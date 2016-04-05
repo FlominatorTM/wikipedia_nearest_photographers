@@ -49,7 +49,8 @@ else
     echo " - ";
     echo '<a href="foto_check.php">'. $I18N->msg( 'check_users')  . '</a>';
     echo ' - by <a href="http://de.wikipedia.org/wiki/Benutzer:Flominator">Flominator</a>';
-	echo $I18N->getPromoBox( 32, TSINT_HELP_ALL );
+	echo $I18N->getFooterLine( TSINT_HELP_ALL ); 
+	
 function print_debug($str)
 {
     global $is_debug;
