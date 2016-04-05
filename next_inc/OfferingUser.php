@@ -78,8 +78,14 @@ class OfferingUser
 		{
 			$fromDate = $this->generateDateFromISO($fromParts);
 			$toDate = $this->generateDateFromISO($toParts);
-			$this->dateFrom = $fromDate;
-			$this->dateTo = $toDate;
+			if($fromDate)
+			{
+				$this->dateTo = $toDate;
+			}
+			if($toDate)
+			{
+				$this->dateFrom = $fromDate;
+			}
 		}
 	}
 	
@@ -90,7 +96,7 @@ class OfferingUser
 	
 	private function generateDateFromISO($dateParts)
 	{
-		return mktime(12, 0, 0, $dateParts[1], $dateParts[2], $dateParts[0]);
+		return mktime(12, 0, 0, $dateParts[1], $dateParts[2], $dateParts[0]))
 	}
 	
 }
