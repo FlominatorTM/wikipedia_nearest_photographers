@@ -1,29 +1,51 @@
 <?php
 
 require_once("setup.php");
-$article_to = "";
-//$article_to = "Hinterzarten";
+
+$article_to  = "";
 if(isset($_REQUEST['article_to']))
 {
-    $article_to = $_REQUEST['article_to'];
+	$article_to = $_REQUEST['article_to'];
 }
-if($article_to == "")
+
+if(!isset($_REQUEST['go']))
 {
-        echo '<h1>' . $I18N->msg( 'headline' ) . '</h1>';
+	echo '<h1>' . $I18N->msg( 'headline' ) . '</h1>';
 	echo '<form>';
 	echo $I18N->msg( 'lang') . ': <input name="lang" value="' . $lang .'"/> ' . $I18N->msg( 'lang_example') .'<br>';
 	echo $I18N->msg( 'project') . ': <input name="project" value="' . $project .'"/>' . $I18N->msg( 'project_example') .'<br>';
 	echo $I18N->msg( 'article_to') . ': <input name="article_to" value="' . $article_to .'"/>' . $I18N->msg( 'article_to_descr') .'<br>';
-	echo '<input type="submit" value="'. $I18N->msg( 'find_next') .'"/>';
+	echo '<input type="submit" name="go" value="'. $I18N->msg( 'find_next') .'"/>';
 	echo '</form>';
 }
 else
 {
-    log_search();
+	log_search();
+	$locTo;
+	$headLine;
+
+	if($article_to != "")
+	{
+		$linkToArticleTo = "<a href=\"https://$server/wiki/".name_in_url($article_to)."\">$article_to</a>";
+		$locTo = GeoLocation::FromArticle($article_to, $server);
+		$headLine = $I18N->msg( 'distance_to', array('variables' =>array($linkToArticleTo)));
+	}
+	else if($_REQUEST['lat'] && $_REQUEST['lon'])
+	{
+		$lat = $_REQUEST['lat']+0;
+		$lon = $_REQUEST['lon']+0;
+		$name = $lat.'/'.$lon;
+		$locTo = GeoLocation::Direct($lat, $lon, $name);
+		$headLine = $I18N->msg( 'distance_to_coord', array('variables' =>array($name)));
+	}
+	else
+	{
+		die ("error: missing parameters");
+	}
+
+	echo '<h1>' . $headLine .'</h1>';	
+    
     $footNote = "";
-    $linkToArticleTo = "<a href=\"https://$server/wiki/".name_in_url($article_to)."\">$article_to</a>";
-    echo '<h1>' . $I18N->msg( 'distance_to', array('variables' =>array($linkToArticleTo))) .'</h1>';
-    $locTo = new GeoLocation($article_to, $server);
     if($locTo->IsValid())
     {
 	$allOfferPages = new OfferPages($server);

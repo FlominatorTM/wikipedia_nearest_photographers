@@ -20,6 +20,7 @@
    "cache_outdated":"Pulling a fresh version of $1 and its entries, because cached version is outdated. This might take some minutes. Please be patient.",
    "user_retrieval":"$1 is being retrieved",
    "distance_to":"Photographers distance to coordinates from [[$1]] ",
+   "distance_to_coord":"Photographers distance to coordinates $1",
    "no_coordinates":"Location $1 is invalid/does not have coordinates.",
    "proj_not_supported":"project $1 is currently not supported, please contact :de:user:Flominator for details",
    "new_request":"Perform new search",

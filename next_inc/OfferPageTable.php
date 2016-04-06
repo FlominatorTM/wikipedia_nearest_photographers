@@ -54,7 +54,7 @@ class OfferPageTable extends OfferPage
 		    {
 			    $usr = new OfferingUser($usr_name);
 			    $usr->IsBeingRetrieved();
-			    $location = new GeoLocation($loc_name, $this->server);
+			    $location = GeoLocation::FromArticle($loc_name, $this->server);
 			    $usr->SetLocation($location);
 			    $this->userOffers[] = $usr;
 		    }

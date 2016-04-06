@@ -10,11 +10,27 @@ class GeoLocation
 	public $exists;
 	public $hasCoordinates;
 	public $onlyFallback;
-	function __construct($article, $server_in)
+	
+	function __construct()
 	{
-		$this->server = $server_in;
-		$this->name = $article;
-		$this->getCoordinates();
+		//doesn't do a thing, the static functions are used as "constructors"
+	}
+	public static function FromArticle($article, $server_in)
+	{
+		$instance = new self();
+		$instance->server = $server_in;
+		$instance->name = $article;
+		$instance->getCoordinates();
+		return $instance;
+	}	
+	
+	public static function Direct($lat, $lon, $name)
+	{
+		$instance = new self();
+		$instance->lat = $lat;
+		$instance->lon = $lon;
+		$instance->name = $name;
+		return $instance;
 	}
 	
 	private function getCoordinates()

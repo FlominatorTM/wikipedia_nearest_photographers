@@ -22,6 +22,7 @@
    "cache_outdated":"Herunterladen einer neuen Version von $1 und deren Einträgen, da die gespeicherte Version veraltet war. Dies kann einige Minuten dauern. Bitte sei geduldig.",
    "user_retrieval":"Benutzer $1 wird ausgelesen",
    "distance_to":"Fotografen nach Entfernung zu Koordinaten aus [[$1]] ",
+   "distance_to_coord":"Fotografen nach Entfernung zu Koordinaten $1",
    "no_coordinates":"Der Artikel $1 ist ungültig oder hat keine Koordinaten.",
    "proj_not_supported":"Das Projekt $1 wird derzeit nicht unterstützt. Bitte nehme Kontakt mit :de:user:Flominator auf.",
    "new_request":"Neue Suche durchführen",

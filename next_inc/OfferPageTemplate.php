@@ -47,7 +47,7 @@ class OfferPageTemplate extends OfferPage
 
 	    $usr = new OfferingUser(extract_template_parameter($template, $this->TemplateUser));
 	    $usr->IsBeingRetrieved();
-	    $location = new GeoLocation(extract_template_parameter($template, $this->TemplateLocation), $this->server);
+	    $location = GeoLocation::FromArticle(extract_template_parameter($template, $this->TemplateLocation), $this->server);
 	    $usr->SetLocation($location);
 	    print_debug("<b>".$location->name."</b>");
 	    $range = extract_template_parameter($template, $this->TemplateRange);

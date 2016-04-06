@@ -53,7 +53,7 @@ class OfferPageList extends OfferPage
 	    {
 		$usr = new OfferingUser($userName);
 		$usr->IsBeingRetrieved();
-		$location = new GeoLocation($locName, $this->server);
+		$location = GeoLocation::FromArticle($locName, $this->server);
 		$usr->SetLocation($location);
 		$this->userOffers[] = $usr;
 	    }
