@@ -30,7 +30,7 @@
    "between_dates":"only between $1 and $2",
    "until_date":"only until $1",
    "until_date_over":"was there until $1 :(",
-   "you_on_list":"You want to be on this list? Please your entry to _OFFER_PAGE_. Is your project missing? File an issue with a link to the photographers list to be included here.",
+   "you_on_list":"You want to be on this list? Please your entry to _OFFER_PAGE_. Is your project missing? File an issue with a link to the photographers list to be included here or leave me a message in another way.",
    "foto_check":"User entries that have a problem",
    "back_to_range":"back",
    "column_location":"Location detected",

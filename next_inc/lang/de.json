@@ -32,7 +32,7 @@
    "between_dates":"nur zwischen $1 und $2",
    "until_date":"nur noch bis $1",
    "until_date_over":"war bis $1 dort :(",
-   "you_on_list":"Du willst auch auf dieser Liste zu finden sein? Füge deinen Eintrag auf der Seite _OFFER_PAGE_ ein. Fehlt dein Projekt hier? Erstelle ein Issue mit einem Link zur Fotografenliste, die hier erscheinen soll.",
+   "you_on_list":"Du willst auch auf dieser Liste zu finden sein? Füge deinen Eintrag auf der Seite _OFFER_PAGE_ ein. Fehlt dein Projekt hier? Erstelle ein Issue mit einem Link zur Fotografenliste, die hier erscheinen soll oder hinterlasse mir anderweitig eine Nachricht.",
    "foto_check":"Benutzer-Einträge mit einem Problem",
    "back_to_range":"zurück",
    "column_location":"erkannter Standort",
