@@ -50,15 +50,6 @@ else
     echo '<a href="foto_check.php">'. $I18N->msg( 'check_users')  . '</a>';
     echo ' - by <a href="http://de.wikipedia.org/wiki/Benutzer:Flominator">Flominator</a>';
 	echo $I18N->getFooterLine( TSINT_HELP_ALL ); 
-	
-function print_debug($str)
-{
-    global $is_debug;
-    if(isset($is_debug) && $is_debug)
-    {
-	echo $str."\n";
-    }
-}
 
 function log_search ()
 {

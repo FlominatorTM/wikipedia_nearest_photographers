@@ -75,12 +75,4 @@ foreach($allOfferPages->Items as $oneOfferPage)
     echo ' - <a href="?purge=' . $oneOfferPage->server . '">' .$I18N->msg( 'purge_cache') . '</a>';    
 }
 
-function print_debug($str)
-{
-    global $is_debug;
-    if(isset($is_debug) && $is_debug)
-    {
-	echo $str."\n";
-    }
-}
 ?>
