@@ -96,6 +96,7 @@ class OfferingUser
 	
 	private function generateDateFromISO($dateParts)
 	{
+		print_debug( "trying to generate date out of $dateParts[1], $dateParts[2], $dateParts[0]");
 		return mktime(12, 0, 0, $dateParts[1], $dateParts[2], $dateParts[0]);
 	}
 	

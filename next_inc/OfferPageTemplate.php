@@ -54,7 +54,7 @@ class OfferPageTemplate extends OfferPage
 	    $dateFrom = trim(extract_template_parameter($template, $this->TemplateDateFrom));
 	    $dateUntil = trim(extract_template_parameter($template, $this->TemplateDateUntil));
 
-	    //echo "Ö $dateFrom Ö ! Ö $dateUntil Ö";
+	    print_debug("dateFrom:" . $dateFrom . " dateTo:" . $dateUntil . "||");
 	    $usr->SetDateRangeISO($dateFrom, $dateUntil);
 
 	    // print_debug("<b>".$range."</b><br />");
