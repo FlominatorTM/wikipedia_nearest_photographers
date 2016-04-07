@@ -53,61 +53,70 @@ class OfferPages
 	usort($this->AllOffers , array("OfferingUser", "CompareDistance"));
     }
     
-    public function ListUsersToRequest($distance = 0)
+    public function ListUsersToRequest($radius = 0)
     {
-	global $I18N;
-	echo '<table border="1">';
-	echo "<tr>";
-	echo "<th>" . $I18N->msg( 'column_user') ."</th>";
-	echo "<th>" . $I18N->msg( 'column_distance') ."</th>";
-	echo "<th>" . $I18N->msg( 'column_wiki') ."</th>";
-	echo "</tr>";
-	foreach($this->AllOffers as $usr)
-	{
-		if($distance > 0 && $usr->distance > $distance)
+		global $I18N;
+		$firstUser = $this->AllOffers[0];
+		if($radius > 0 && $firstUser->distance > $radius)
 		{
-			//distance was set and has been exceeded
-			break;
+			echo $I18N->msg( 'none_found', array('variables' => array($radius)));
 		}
-	    echo "<tr>";
-	     $resLine = "<td>" . $usr->Link;
-	
-	    if($usr->IsInRange())
-	    {
-		    echo "<b>$resLine</b>";
-	    }
-	    else
-	    {
-		    echo "$resLine";
-	    }
-	    
-	    if($usr->HasDuration())
-	    {
-			echo "<br/><small>";
-			$now = time();
+		else
+		{
+			echo '<table border="1">';
+			echo "<tr>";
+			echo "<th>" . $I18N->msg( 'column_user') ."</th>";
+			echo "<th>" . $I18N->msg( 'column_distance') ."</th>";
+			echo "<th>" . $I18N->msg( 'column_wiki') ."</th>";
+			echo "</tr>";
 
-			if($usr->dateFrom < $now)
+			foreach($this->AllOffers as $usr)
 			{
-				if($usr->dateTo < $now)
+				if($radius > 0 && $usr->distance > $radius)
 				{
-				echo $I18N->msg( 'until_date_over', array('variables' => array($I18N->dateFormatted($usr->dateTo))));
+					//radius was set and has been exceeded
+					break;
+				}
+				echo "<tr>";
+				 $resLine = "<td>" . $usr->Link;
+
+				if($usr->IsInRange())
+				{
+					echo "<b>$resLine</b>";
 				}
 				else
 				{
-				echo $I18N->msg( 'until_date',  array('variables' => array($I18N->dateFormatted($usr->dateTo))));
+					echo "$resLine";
 				}
+				
+				if($usr->HasDuration())
+				{
+					echo "<br/><small>";
+					$now = time();
+
+					if($usr->dateFrom < $now)
+					{
+						if($usr->dateTo < $now)
+						{
+						echo $I18N->msg( 'until_date_over', array('variables' => array($I18N->dateFormatted($usr->dateTo))));
+						}
+						else
+						{
+						echo $I18N->msg( 'until_date',  array('variables' => array($I18N->dateFormatted($usr->dateTo))));
+						}
+					}
+					else
+					{
+						echo $I18N->msg( 'between_dates',  array('variables' => array($I18N->dateFormatted($usr->dateFrom), $I18N->dateFormatted($usr->dateTo))));
+					}
+					echo "</small>";
+				}
+				echo '</td>';
+				echo "<td>" . sprintf("%01.1f",$usr->distance)  . " km</td>";
+				echo ' <td>' . $usr->LinkHome . "</td>";
+				echo "</tr>";
 			}
-			else
-			{
-				echo $I18N->msg( 'between_dates',  array('variables' => array($I18N->dateFormatted($usr->dateFrom), $I18N->dateFormatted($usr->dateTo))));
-			}
-			echo "</small>";
-	    }
-		echo '</td>';
-		echo "<td>" . sprintf("%01.1f",$usr->distance)  . " km</td>";
-	    echo ' <td>' . $usr->LinkHome . "</td>";
-	    echo "</tr>";
+			echo "</table>";
+		}
 	}
-	echo "</table>";
-    }
 }

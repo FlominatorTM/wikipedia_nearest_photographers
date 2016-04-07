@@ -43,6 +43,7 @@
    "problem_no_article":"kein Artikel",
    "problem_no_coordinates":"ohne Koordinaten",
    "problem_fallback":"Fallback: de.wp",
+   "none_found":"Keine Benutzer im Radius von $1 km gefunden. Versuche einen größeren Radius, um mehr Benutzer zu sehen.",
    "items_found":"$1 {{PLURAL:$1|Eintrag|Einträge}} gefunden",
    "purge_cache":"Cache löschen"
 }

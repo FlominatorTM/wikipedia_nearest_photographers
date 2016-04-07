@@ -41,5 +41,7 @@
    "problem_no_coordinates":"coordinates missing",
    "problem_fallback":"Fallback: de.wp",
    "purge_cache":"purge cache",
-   "items_found":"$1 {{PLURAL:$1|entry|entries}} found"
+   "none_found":"No users in radius of $1 km found. Try with a bigger radius to see all uers.",
+   "items_found":"$1 {{PLURAL:$1|entry|entries}} found",
+   "purge_cache":"Delete cache"
 }
