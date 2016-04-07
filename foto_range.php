@@ -8,6 +8,12 @@ if(isset($_REQUEST['article_to']))
 	$article_to = $_REQUEST['article_to'];
 }
 
+$radius = 0;
+if(isset($_REQUEST['radius']))
+{
+	$radius = $_REQUEST['radius']+0;
+}
+
 if(!isset($_REQUEST['go']))
 {
 	echo '<h1>' . $I18N->msg( 'headline' ) . '</h1>';
@@ -15,6 +21,8 @@ if(!isset($_REQUEST['go']))
 	echo $I18N->msg( 'lang') . ': <input name="lang" value="' . $lang .'"/> ' . $I18N->msg( 'lang_example') .'<br>';
 	echo $I18N->msg( 'project') . ': <input name="project" value="' . $project .'"/>' . $I18N->msg( 'project_example') .'<br>';
 	echo $I18N->msg( 'article_to') . ': <input name="article_to" value="' . $article_to .'"/>' . $I18N->msg( 'article_to_descr') .'<br>';
+	
+	echo $I18N->msg( 'radius') . ': <input name="radius" value="' . $radius .'"/>' . $I18N->msg( 'radius_descr') .'<br>';
 	echo '<input type="submit" name="go" value="'. $I18N->msg( 'find_next') .'"/>';
 	echo '</form>';
 }
@@ -48,19 +56,19 @@ else
     $footNote = "";
     if($locTo->IsValid())
     {
-	$allOfferPages = new OfferPages($server);
-	$allOfferPages->MergeOffers($locTo);
-	$allOfferPages->ListUsersToRequest();
-	$homePage = $allOfferPages->HomeOfferPage;
-	$footNote = str_replace('_OFFER_PAGE_', $homePage->Link, $I18N->msg( 'you_on_list'));
-	$footNote = str_replace($homePage->server.'<', $homePage->OfferPageName.'<', $footNote);
+		$allOfferPages = new OfferPages($server);
+		$allOfferPages->MergeOffers($locTo);
+		$allOfferPages->ListUsersToRequest($radius);
+		$homePage = $allOfferPages->HomeOfferPage;
+		$footNote = str_replace('_OFFER_PAGE_', $homePage->Link, $I18N->msg( 'you_on_list'));
+		$footNote = str_replace($homePage->server.'<', $homePage->OfferPageName.'<', $footNote);
     }
     else
     {
 	echo $I18N->msg( 'no_coordinates', array('variables' => array($linkToArticleTo)) );
     }
 
-    echo "<br><br><a href=\"?lang=$lang&project=$project\">".$I18N->msg( 'new_request')."</a>";
+    echo "<br><br><a href=\"?lang=$lang&project=$project&radius=$radius\">".$I18N->msg( 'new_request')."</a>";
     echo "<br><hr>$footNote";
 }
 

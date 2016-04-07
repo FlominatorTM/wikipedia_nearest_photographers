@@ -53,7 +53,7 @@ class OfferPages
 	usort($this->AllOffers , array("OfferingUser", "CompareDistance"));
     }
     
-    public function ListUsersToRequest()
+    public function ListUsersToRequest($distance = 0)
     {
 	global $I18N;
 	echo '<table border="1">';
@@ -64,6 +64,11 @@ class OfferPages
 	echo "</tr>";
 	foreach($this->AllOffers as $usr)
 	{
+		if($distance > 0 && $usr->distance > $distance)
+		{
+			//distance was set and has been exceeded
+			break;
+		}
 	    echo "<tr>";
 	     $resLine = "<td>" . $usr->Link;
 	

@@ -7,6 +7,8 @@
    "project_example":"wikipedia, wikisource, wikimedia, …",
    "article_to":"Article",
    "article_to_descr":"Wikipedia article with coordinates where picture should be taken at (e.g. some city, sight, place etc.)",
+   "radius":"Radius",
+   "radius_descr":"km until which users are listed (0 lists all users)",
    "find_next":"Find closest photographers",
    "manual":"Manual",
    "issues":"issues + feedback",

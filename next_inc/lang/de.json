@@ -9,6 +9,9 @@
    "project_example":"wikipedia, wikisource, wikimedia, …",
    "article_to":"Artikel",
    "article_to_descr":"Wikipedia-Artikel mit Koordinaten, an denen das Bild aufgenommen werden soll (z.B.  Stadt, Sehenswürdigkeit, Platz etc.)",
+   "radius":"Radius",
+   "radius_descr":"km bis zu denen Benutzer aufgelistet werden (0 zeigt alle Benutzer)",
+
    "find_next":"Nächste Fotografen finden",
    "manual":"Anleitung",
    "issues":"Issues und Feedback",
