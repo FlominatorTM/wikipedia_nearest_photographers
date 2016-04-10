@@ -2,7 +2,18 @@
 //exports all photographers with valid coordinates to JSON
 
 //underscore stuff is legacy, camel-cased is php 5
-require_once("setup.php");
+
+require_once __DIR__ . '/vendor/autoload.php';
+include("shared_inc/language.inc.php");
+include("shared_inc/wiki_functions.inc.php");
+include('next_inc/OfferingUser.php');	
+include('next_inc/OfferPage.php');	
+include('next_inc/OfferPageTemplate.php');	
+include('next_inc/OfferPageList.php');	
+include('next_inc/OfferPageTable.php');	
+include('next_inc/OfferPageTableFromFile.php');	
+include('next_inc/OfferPages.php');	
+include('next_inc/GeoLocation.php');
 
 $allOfferPages = new OfferPages($server);
 
@@ -26,5 +37,5 @@ foreach($allOfferPages->Items as $oneOfferPage)
 }
  print_debug("ende");
 //var_dump($users);
-var_dump(json_encode($users));
+echo json_encode($users);
 ?>
