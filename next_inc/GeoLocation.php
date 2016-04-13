@@ -7,10 +7,10 @@ class GeoLocation
 	public $iso = "";
 	public $name = "";
 	public $server;
-	public $exists;
-	public $hasCoordinates;
+	public $exists; //article exists
+	public $hasCoordinates; //article has coordinates
 	public $onlyFallback;
-	public $wasChecked; //for coordinates
+	public $wasChecked; //article was checked for coordinates
 	static private  $allWithArticle = array();
 	
 	function __construct()
@@ -21,22 +21,19 @@ class GeoLocation
 	{
 		if(array_key_exists ($article, self::$allWithArticle) )
 		{
-			echo "$article exists => returning it<br>";
+			print_debug( "$article exists => returning it<br>");
 			$locFound = self::$allWithArticle[$article];
-			if($locFound->server == $server_in)
-			{
-				return $locFound;
-			}
+			return $locFound;
 		}
 
-		echo "$article exists not => creating it<br>";
+		print_debug( "$article exists not => creating it<br>");
 		$instance = new self();
 		$instance->server = $server_in;
 		$instance->name = $article;
-		self::$allWithArticle[$instance->name] = $instance;		
+		self::$allWithArticle[$instance->name] = $instance;
 		$instance->wasChecked = false;
 		$instance->exists = false;
-		echo "Locations: " . count(self::$allWithArticle);
+		print_debug( "Locations: " . count(self::$allWithArticle));
 		return $instance;
 		
 	}	
@@ -58,27 +55,28 @@ class GeoLocation
 
 	}
 
-	private function getAllCoordinatesXml($server, $offset)
+	private function getAllCoordinatesXml(&$allFromHere)
 	{
-		//50 als const
-		echo "getAllCoordinates";
-		$request_url="http://".$server."/w/api.php?action=query&prop=coordinates&colimit=500&format=xml&redirects&titles=";
-		$end = min(count(self::$allWithArticle), $offset+50);
-		echo "end:" . $end;
-		$i = $offset;
-		foreach(self::$allWithArticle as $loc)
+		if(count($allFromHere)==0) return false;
+			
+		$coordsPerApiCall = 50;
+		$request_url="http://".$this->server."/w/api.php?action=query&prop=coordinates&colimit=500&format=xml&redirects&titles=";
+		$i=0;
+
+		//var_dump($allFromHere);
+		while($i<$coordsPerApiCall&& count($allFromHere)>0)
 		{
-			if($i == $end) break;
-			if(!$loc->wasChecked && $loc->server == $server)
+			$loc = array_shift($allFromHere);
+			//var_dump($loc);
+			if(!$loc->wasChecked)
 			{
 				$request_url.=$loc->name.'|';
-				// $request_url.=name_in_url($loc->name).'|';
+				$loc->wasChecked = true;
 				$i++;
 			}
 		}
-
 		$request_url = substr($request_url, 0, strlen($request_url)-1); //remove trailing pipe
-		echo "<br>".$request_url;
+		print_debug("<br>".$request_url);
 		set_time_limit(1200);
 		$xml = simplexml_load_file($request_url);
 		return $xml;
@@ -88,12 +86,9 @@ class GeoLocation
 	{
 		if($xml)
 		{
-			echo "<b>has xml with len" .strlen($xml)." </b>";
-			echo '<pre>'.htmlspecialchars("".$xml).'</pre>';
-			
 			foreach ($xml->query->pages->page as $onePageNode)
 			{
-				echo "<br>title". $onePageNode['title'] . "found";
+				print_debug( "<br>title". $onePageNode['title'] . "found");
 				$location;
 				if(array_key_exists ( "".$onePageNode['title'], self::$allWithArticle) )
 				{
@@ -105,81 +100,60 @@ class GeoLocation
 					foreach($xml->query->redirects->r as $oneRedirect)
 					{
 
-						echo "<br>redir: ". $oneRedirect['to'];
+						print_debug( "<br>redir: ". $oneRedirect['to']);
 						if("".$oneRedirect['to'] == "".$onePageNode['title'])
 						{
-							echo "<br>title". $onePageNode['title'] . "found as redirect";
+							print_debug( "<br>title". $onePageNode['title'] . "found as redirect");
 							$location = self::$allWithArticle[ "".$oneRedirect['from']];
 							$found = true;
 						}
 					}
 					if(!$found) 
 					{
-						echo "<br>title". $onePageNode['title'] . "found not even as redirect";
+						print_debug( "<br>title". $onePageNode['title'] . "found not even as redirect");
 						continue;
 					}
 
 				}
 				
-				echo ($onePageNode->coordinates->co['lon'].""); //print_debug
+				print_debug ($onePageNode->coordinates->co['lon']."");
 				$location->exists = true;
 				
 				if($onePageNode->coordinates->co['lon']!="")
 				{
-					echo "has coordinates";
+					print_debug( "has coordinates");
 					$location->hasCoordinates = true;
 					$location->lon = "".$onePageNode->coordinates->co['lon']; //without "" some XML object would be linked
 					$location->lat = "".$onePageNode->coordinates->co['lat'];
 				}
 				else
 				{
-					echo "has no coordinates";
+					print_debug( "has no coordinates");
 					$location->hasCoordinates = false;
-					// if($server!='de.wikipedia.org')
-					// {
-						// $location->tryGetCoordinates('de.wikipedia.org');
-						// if($location->hasCoordinates)
-						// {
-							// $location->onlyFallback = true;
-						// }
-						
-						// if(!$location->exists)
-						// {
-							// $location->exists = true;
-						// }
-					// }
 				}
-
-				//put remaining locations to was checked true
 			}
 		}
 	}
+	
+	private function getUncheckedLocationsByServer($server)
+	{
+		$allRet = array();
+		foreach(self::$allWithArticle as $oneOfAll)
+		{
+			if($oneOfAll->server == $server && !$oneOfAll->wasChecked)
+			{
+				$allRet[$oneOfAll->name] = $oneOfAll;
+			}
+		}
+		return $allRet;
+	}
 	private function tryGetCoordinates($server)
 	{
-	    echo "tryGetCoordinates";
-		if($this->name != "")
-		{	
-			$coordsPerApi = 50;
-			$apiRounds = ceil(count(self::$allWithArticle)/$coordsPerApi ); 
-			for($i=0;$i<$apiRounds;$i++)
-			{
-				echo "<br>processing batch from " . $i*$coordsPerApi;
-				$xml = $this->getAllCoordinatesXml($server, $i*$coordsPerApi);
-				$this->processCoordinates($xml);
-			}
-			
-			echo "setting rest as checked";
-			foreach(self::$allWithArticle as $oneLoc)
-			{
-				// var_dump($oneLoc);
-				if($oneLoc->server == $server)
-				{
-					echo "loc $oneLoc->name was marked checked";
-					$oneLoc->wasChecked = true;
-				}
-				// var_dump(self::$allWithArticle[$oneLoc->name]);
-			}
-			
+		$allFromHere = $this->getUncheckedLocationsByServer($server);
+		
+		while($xml = $this->getAllCoordinatesXml($allFromHere))
+		{
+			$this->processCoordinates($xml);
 		}
 	}
 	
@@ -190,10 +164,10 @@ class GeoLocation
 	
 	function IsValid()
 	{
-		echo "<br>asking if $this->name was checked";
+		print_debug("<br>asking if $this->name was checked");
 		if(!$this->wasChecked)
 		{
-			echo " and it wasn't";
+			print_debug(" and it wasn't");
 			$this->getCoordinates($this->server);
 		}
 	    return $this->name != "" && $this->lat != -1 && $this->lon != -1;
@@ -251,7 +225,7 @@ class GeoLocation
 	
 	private function calculateDistance($startLat, $startLon, $endLat, $endLon)
 	{
-	  echo "CALC: " .$this->name . " calculateDistance($startLat, $startLon, $endLat, $endLon) " ;
+	  print_debug( "CALC: " .$this->name . " calculateDistance($startLat, $startLon, $endLat, $endLon) " );
 		//http://www.kurztutorial.info/php5/spezial/geokoordinaten/geokoordinaten.php
 		print_debug("calculateDistance($startLat, $startLon, $endLat, $endLon)");
 		$dist = 0.0;

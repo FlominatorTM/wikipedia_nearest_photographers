@@ -97,6 +97,8 @@ abstract class OfferPage
 	    if($handleCacheFile = fopen($cacheFile, "w"))
 	    {
 		print_debug("attempting to write cache");
+		
+		$this->userOffers[1]->IsValid(); //dummy call to retrieve coordinates
 		if(fputs($handleCacheFile, serialize($this->userOffers)))
 		{
 			print_debug("cache written");
