@@ -19,15 +19,24 @@ class GeoLocation
 	}
 	public static function FromArticle($article, $server_in)
 	{
+		$article = str_replace('_', '', $article);
+		$instance = new self();
 		if(array_key_exists ($article, self::$allWithArticle) )
 		{
 			print_debug( "$article exists => returning it<br>");
 			$locFound = self::$allWithArticle[$article];
-			return $locFound;
+			if($locFound->wasChecked && $locFound->hasCoordinates)
+			{
+				return $locFound;
+			}
+			else
+			{
+				$instance = $locFound;
+			}
 		}
 
 		print_debug( "$article exists not => creating it<br>");
-		$instance = new self();
+		
 		$instance->server = $server_in;
 		$instance->name = $article;
 		self::$allWithArticle[$instance->name] = $instance;
@@ -59,7 +68,7 @@ class GeoLocation
 	{
 		if(count($allFromHere)==0) return false;
 			
-		$coordsPerApiCall = 50;
+		$coordsPerApiCall = 45;
 		$request_url="http://".$this->server."/w/api.php?action=query&prop=coordinates&colimit=500&format=xml&redirects&titles=";
 		$i=0;
 
