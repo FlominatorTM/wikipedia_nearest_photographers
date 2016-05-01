@@ -106,12 +106,9 @@ class GeoLocation
 					$location = self::$allWithArticle[ "".$onePageNode['title']];
 					$found = true;
 				}
-				//try redirects
+
 				if(isset($xml->query->redirects))
 				{
-					//use array_shift in order to get rid of the redirect location 
-					//if both are present
-
 					foreach($xml->query->redirects->r as $oneRedirect)
 					{
 
