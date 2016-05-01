@@ -94,27 +94,42 @@ class GeoLocation
 	private function processCoordinates($xml)
 	{
 		if($xml)
-		{
+		{					
 			foreach ($xml->query->pages->page as $onePageNode)
 			{
 				print_debug( "<br>title". $onePageNode['title'] . "found");
 				$location;
+				$addionalRedirects = array();
+				$found = false;
 				if(array_key_exists ( "".$onePageNode['title'], self::$allWithArticle) )
 				{
 					$location = self::$allWithArticle[ "".$onePageNode['title']];
+					$found = true;
 				}
-				else //try redirects
+				//try redirects
+				if(isset($xml->query->redirects))
 				{
-					$found = false;
+					//use array_shift in order to get rid of the redirect location 
+					//if both are present
+
 					foreach($xml->query->redirects->r as $oneRedirect)
 					{
 
 						print_debug( "<br>redir: ". $oneRedirect['to']);
 						if("".$oneRedirect['to'] == "".$onePageNode['title'])
 						{
-							print_debug( "<br>title". $onePageNode['title'] . "found as redirect");
-							$location = self::$allWithArticle[ "".$oneRedirect['from']];
 							$found = true;
+							print_debug( "<br>title". $onePageNode['title'] . "found as redirect");
+							if(array_key_exists ( "".$onePageNode['title'], self::$allWithArticle) ) 
+							{
+								print_debug("is additional");
+								$addionalRedirects[] = self::$allWithArticle[ "".$oneRedirect['from']];
+							}
+							else
+							{
+								print_debug("is the only one");
+								$location = self::$allWithArticle[ "".$oneRedirect['from']];
+							}
 						}
 					}
 					if(!$found) 
@@ -139,6 +154,15 @@ class GeoLocation
 				{
 					print_debug( "has no coordinates");
 					$location->hasCoordinates = false;
+				}
+				
+				foreach($addionalRedirects as $addionalRedirect)
+				{
+					$addionalRedirect->hasCoordinates = $location->hasCoordinates;
+					$addionalRedirect->lon = $location->lon;
+					$addionalRedirect->lat = $location->lat;
+					$addionalRedirect->exists = $location->exists;
+					
 				}
 			}
 		}
