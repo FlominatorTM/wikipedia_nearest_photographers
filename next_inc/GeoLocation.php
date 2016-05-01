@@ -19,7 +19,7 @@ class GeoLocation
 	}
 	public static function FromArticle($article, $server_in)
 	{
-		$article = str_replace('_', '', $article);
+		$article = str_replace('_', ' ', $article);
 		$instance = new self();
 		if(array_key_exists ($article, self::$allWithArticle) )
 		{
