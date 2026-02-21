@@ -72,7 +72,7 @@ function log_search()
 {
 	global $article_to, $lang, $project, $server, $user_lang;
 	if (!is_dir("log")) mkdir("log");
-	$logfile = "log/nearest_" . strftime("%Y-%m-%d") . ".csv";
+	$logfile = "log/nearest_" . date("Y-m-d") . ".csv";
 
 	$header = "";
 	if (!file_exists($logfile)) {
@@ -89,8 +89,8 @@ function log_search()
 
 	if ($file = fopen($logfile, "a")) {
 		fputs($file, $header);
-		fputs($file, strftime("%Y-%m-%d") . ";");
-		fputs($file, strftime("%H:%M") . ";");
+		fputs($file, date("Y-m-d") . ";");
+		fputs($file, date("H:i") . ";");
 		fputs($file, "\"" . $_SERVER['REMOTE_ADDR'] . "\";");
 		fputs($file, $user_lang . ";");
 		fputs($file, "\"" . $article_to . "\";");
